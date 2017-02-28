@@ -11,3 +11,7 @@ netbull_auth_logout:
 
 netbull_auth_check:
     path:     /auth_check
+
+netbull_auth_facebook_callback:
+    path:     /facebook-auth
+    defaults: { _controller: NetbullAuthBundle:Default:facebook }

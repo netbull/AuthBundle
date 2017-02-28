@@ -59,4 +59,17 @@ class DefaultController extends Controller
             'error'         => $error,
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function facebookAction( Request $request )
+    {
+        $provider = $this->get('netbull_auth.provider.facebook');
+
+        $provider->getToken();
+
+        return $this->redirect('/');
+    }
 }

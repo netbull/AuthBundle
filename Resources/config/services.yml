@@ -3,3 +3,11 @@ services:
         class: Netbull\AuthBundle\Security\RoleHierarchy
         public: false
         arguments: [ '%security.role_hierarchy.roles%', '@doctrine.orm.default_entity_manager' ]
+
+    netbull_auth.user_manager:
+        class: Netbull\AuthBundle\Manager\UserManager
+        arguments: [ '@doctrine.orm.entity_manager', '@security.token_storage', '@session' ]
+
+    netbull_auth.provider.facebook:
+        class: Netbull\AuthBundle\Providers\Facebook
+        arguments: [ '', '', '@router', '@netbull_auth.user_manager' ]

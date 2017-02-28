@@ -2,6 +2,7 @@
 
 namespace Netbull\AuthBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -19,6 +20,27 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
 
+        $rootNode = $treeBuilder->root('netbull_auth');
+
+        $this->addProviders($rootNode);
+
         return $treeBuilder;
+    }
+
+    /**
+     * @param ArrayNodeDefinition $node
+     */
+    private function addProviders( ArrayNodeDefinition $node )
+    {
+        $node
+            ->children()
+                ->arrayNode('facebook')
+                    ->children()
+                        ->scalarNode('id')->defaultNull()->end()
+                        ->scalarNode('secret')->defaultNull()->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
     }
 }

@@ -88,6 +88,13 @@ class User implements UserInterface, \Serializable
     private $roles;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="facebook_id", type="integer", length=17)
+     */
+    private $facebookId;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -271,6 +278,22 @@ class User implements UserInterface, \Serializable
         if ( $this->roles->contains($role) ) {
             $this->roles->removeElement($role);
         }
+    }
+
+    /**
+     * @return int
+     */
+    public function getFacebookId()
+    {
+        return $this->facebookId;
+    }
+
+    /**
+     * @param int $facebookId
+     */
+    public function setFacebookId($facebookId)
+    {
+        $this->facebookId = $facebookId;
     }
 
     ##########################################
