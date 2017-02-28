@@ -5,13 +5,11 @@ namespace Netbull\AuthBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Symfony\Component\Security\Core\Role\RoleInterface;
-
 /**
  * @ORM\Table(name="user_roles")
  * @ORM\Entity()
  */
-class Role implements RoleInterface
+class Role extends \Symfony\Component\Security\Core\Role\Role
 {
     /**
      * @ORM\Column(name="id", type="integer")
@@ -57,6 +55,7 @@ class Role implements RoleInterface
      */
     public function __construct()
     {
+        parent::__construct($this->role);
         $this->users = new ArrayCollection();
     }
 
