@@ -48,10 +48,10 @@ class AppKernel extends Kernel
 }
 ```
 
-Step 3: Update the DataBase
+Step 3: Update the Database
 ---------------------------
 
 Finally update the database:
 ```bash
-php bin/console doctrine:schema:update --dump-sql
+php bin/console doctrine:schema:update --force
 ```
