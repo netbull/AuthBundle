@@ -1,4 +1,5 @@
 <?php
+
 namespace Netbull\AuthBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Netbull\AuthBundle\Form;
 
 use Symfony\Component\Form\AbstractType;

@@ -1,6 +1,7 @@
 AuthBundle
 ==========
-[![Build Status](https://travis-ci.org/netbull/AuthBundle.svg?branch=master)](https://travis-ci.org/netbull/Mpay24Bundle)<br>
+[![Build Status](https://travis-ci.org/netbull/AuthBundle.svg?branch=master)](https://travis-ci.org/netbull/AuthBundle)<br>
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/e6ac2225-8adf-4d41-868c-3b48644d11cc/big.png)](https://insight.sensiolabs.com/projects/e6ac2225-8adf-4d41-868c-3b48644d11cc)
 
 Installation
 ============

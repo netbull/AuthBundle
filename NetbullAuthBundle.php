@@ -1,4 +1,5 @@
 <?php
+
 namespace Netbull\AuthBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Netbull\AuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;

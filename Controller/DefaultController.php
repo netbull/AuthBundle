@@ -1,4 +1,5 @@
 <?php
+
 namespace Netbull\AuthBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +37,7 @@ class DefaultController extends Controller
             return $this->redirectToRoute('replace_with_some_route');
         }
 
-        return $this->render('ADAuthBundle::register.html.twig', ['form' => $form->createView()]);
+        return $this->render('NetbullAuthBundle::register.html.twig', ['form' => $form->createView()]);
     }
 
     /**
@@ -53,7 +54,7 @@ class DefaultController extends Controller
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('ADAuthBundle::login.html.twig', [
+        return $this->render('NetbullAuthBundle::login.html.twig', [
             'last_username' => $lastUsername,
             'error'         => $error,
         ]);

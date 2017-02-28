@@ -1,4 +1,5 @@
 <?php
+
 namespace Netbull\AuthBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
