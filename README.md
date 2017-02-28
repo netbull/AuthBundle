@@ -1,3 +1,7 @@
+AuthBundle
+==========
+[![Build Status](https://travis-ci.org/netbull/AuthBundle.svg?branch=master)](https://travis-ci.org/netbull/Mpay24Bundle)<br>
+
 Installation
 ============
 
