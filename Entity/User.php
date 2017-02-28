@@ -56,16 +56,16 @@ class User implements UserInterface, \Serializable
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_active", type="boolean")
+     * @ORM\Column(name="active", type="boolean")
      */
-    private $isActive = true;
+    private $active = true;
 
     /**
      * User constructor.
      */
     public function __construct()
     {
-        $this->isActive = true;
+        $this->active = true;
     }
 
     /**
@@ -145,15 +145,15 @@ class User implements UserInterface, \Serializable
      */
     public function isActive()
     {
-        return $this->isActive;
+        return $this->active;
     }
 
     /**
-     * @param bool $isActive
+     * @param bool $active
      */
-    public function setIsActive($isActive)
+    public function setActive($active)
     {
-        $this->isActive = $isActive;
+        $this->active = $active;
     }
 
     ##########################################

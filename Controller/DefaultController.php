@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Netbull\AuthBundle\Entity\User;
-use Netbull\AuthBundle\Form\UserType;
+use Netbull\AuthBundle\Form\Type\UserType;
 
 /**
  * Class DefaultController
