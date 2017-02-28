@@ -3,7 +3,6 @@
 namespace Netbull\AuthBundle\Providers;
 
 use Symfony\Component\Routing\Router;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Exceptions\FacebookResponseException;
@@ -18,11 +17,6 @@ use Netbull\AuthBundle\Manager\UserManager;
 class Facebook
 {
     /**
-     * @var string
-     */
-    private $appId;
-
-    /**
      * @var Router
      */
     private $router;
@@ -36,11 +30,6 @@ class Facebook
      * @var \Facebook\Helpers\FacebookRedirectLoginHelper
      */
     private $helper;
-
-    /**
-     * @var Session
-     */
-    private $session;
 
     /**
      * @var UserManager
@@ -60,14 +49,13 @@ class Facebook
      * @param UserManager   $userManager
      * @throws \Exception
      */
-    function __construct( $id, $secret, Router $router, UserManager $userManager )
+    public function __construct( $id, $secret, Router $router, UserManager $userManager )
     {
         if ( empty($id) && empty($secret) ) {
             throw new \Exception('If you want to use this provider configure it in netbull_auth.yml with the Facebook App ID and App Secret');
         }
 
         $this->router   = $router;
-        $this->appId    = $id;
         $this->instance = new \Facebook\Facebook([
             'app_id'                => $id,
             'app_secret'            => $secret,
@@ -97,14 +85,10 @@ class Facebook
     {
         try {
             $accessToken = $this->helper->getAccessToken();
-        } catch( FacebookResponseException $e ) {
-            // When Graph returns an error
-            echo 'Graph returned an error: ' . $e->getMessage();
-            exit;
-        } catch( FacebookSDKException $e ) {
-            // When validation fails or other local issues
-            echo 'Facebook SDK returned an error: ' . $e->getMessage();
-            exit;
+        } catch( FacebookResponseException $e) {
+            throw new \Exception('Graph returned an error: ' . $e->getMessage());
+        } catch( FacebookSDKException $e) {
+            throw new \Exception('Facebook SDK returned an error: ' . $e->getMessage());
         }
 
         if ( isset($accessToken) ) {
@@ -118,20 +102,16 @@ class Facebook
                 // Exchanges a short-lived access token for a long-lived one
                 try {
                     $accessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
-                } catch ( FacebookSDKException $e ) {
-                    exit;
-                }
+                } catch ( FacebookSDKException $e ) { }
             }
 
             try {
                 // Returns a `Facebook\FacebookResponse` object
                 $response = $this->instance->get('/me?fields=id,email,first_name,last_name', $accessToken);
             } catch( FacebookResponseException $e) {
-                echo 'Graph returned an error: ' . $e->getMessage();
-                exit;
+                throw new \Exception('Graph returned an error: ' . $e->getMessage());
             } catch( FacebookSDKException $e) {
-                echo 'Facebook SDK returned an error: ' . $e->getMessage();
-                exit;
+                throw new \Exception('Facebook SDK returned an error: ' . $e->getMessage());
             }
 
             $facebookUser = $response->getGraphUser();

@@ -102,7 +102,7 @@ class User implements UserInterface, \Serializable
         $this->active   = true;
         $this->roles    = new ArrayCollection();
 
-        if ( null == $this->last_active ){
+        if ( null === $this->last_active ){
             $this->last_active = new \DateTime('now');
         }
     }
