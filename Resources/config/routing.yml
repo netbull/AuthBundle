@@ -1,0 +1,10 @@
+netbull_auth_register:
+    path:     /register
+    defaults: { _controller: NetbullAuthBundle:Default:register }
+
+netbull_auth_login:
+    path:     /login
+    defaults: { _controller: NetbullAuthBundle:Default:login }
+
+auth_check:
+    path:     /auth_check

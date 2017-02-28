@@ -1,0 +1,23 @@
+{
+  "name" : "netbull/auth-bundle",
+  "description" : "Authentication bundle",
+  "type" : "symfony-bundle",
+  "authors" : [{
+    "name" : "Aleksandar Dimitrov",
+    "email" : "netbull2007@gmail.com"
+  }],
+  "keywords" : [
+    "auth authentication symfony bundle"
+  ],
+  "license" : [
+    "MIT"
+  ],
+  "require" : {
+
+  },
+  "autoload" : {
+    "psr-4" : {
+      "Netbull\\AuthBundle\\" : ""
+    }
+  }
+}
