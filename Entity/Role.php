@@ -51,7 +51,7 @@ class Role extends \Symfony\Component\Security\Core\Role\Role
     private $group;
 
     /**
-     * Role constructor.
+     * Role constructor..
      */
     public function __construct()
     {

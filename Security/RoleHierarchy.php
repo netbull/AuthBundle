@@ -16,7 +16,7 @@ class RoleHierarchy extends \Symfony\Component\Security\Core\Role\RoleHierarchy
     private $em;
 
     /**
-     * RoleHierarchy constructor.
+     * RoleHierarchy constructor..
      * @param array $hierarchy
      * @param EntityManager $em
      */
