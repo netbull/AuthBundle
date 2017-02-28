@@ -51,7 +51,48 @@ class AppKernel extends Kernel
 Step 3: Update the Database
 ---------------------------
 
-Finally update the database:
+update the database:
 ```bash
 php bin/console doctrine:schema:update --force
+```
+
+Step 4: Configuration
+---------------------------
+
+```yaml
+// app/config/security.yml
+
+// ...
+    firewalls:
+        // ...
+        
+        main:
+            pattern: ^/
+            anonymous: ~
+            form_login:
+                remember_me: true
+                check_path: netbull_auth_check
+                login_path: netbull_auth_login
+                provider: default
+                csrf_token_generator: security.csrf.token_manager
+            logout:
+                path: netbull_auth_logout
+                target: /login
+                invalidate_session: true
+                delete_cookies:
+                    name:
+                        path: null
+                        domain: null
+                handlers: []
+            switch_user: { role: ROLE_ADMIN, parameter: _view_as }
+            remember_me:
+                secret  : "%secret%"
+                lifetime: 31536000 # Year
+                path    : /
+                domain  : ~
+        // ...
+        
+        access_control:
+            - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+            - { path: ^/office, roles: ROLE_TEAM }
 ```

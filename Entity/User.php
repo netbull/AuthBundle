@@ -3,9 +3,11 @@
 namespace Netbull\AuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="users")
@@ -26,7 +28,21 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=25, unique=true)
+     * @ORM\Column(name="first_name", type="string", length=60)
+     */
+    private $firstName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="last_name", type="string", length=60)
+     */
+    private $lastName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", length=25, unique=true)
      * @Assert\NotBlank(message="Моля въведи потребителско име")
      */
     private $username;
@@ -61,11 +77,27 @@ class User implements UserInterface, \Serializable
     private $active = true;
 
     /**
+     * @var \DateTime
+     * @ORM\Column(name="last_active", type="datetime")
+     */
+    private $last_active;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Netbull\AuthBundle\Entity\Role", inversedBy="users")
+     */
+    private $roles;
+
+    /**
      * User constructor.
      */
     public function __construct()
     {
-        $this->active = true;
+        $this->active   = true;
+        $this->roles    = new ArrayCollection();
+
+        if ( null == $this->last_active ){
+            $this->last_active = new \DateTime('now');
+        }
     }
 
     /**
@@ -74,6 +106,38 @@ class User implements UserInterface, \Serializable
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param string $firstName
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
     }
 
     /**
@@ -156,6 +220,59 @@ class User implements UserInterface, \Serializable
         $this->active = $active;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getLastActive()
+    {
+        return $this->last_active;
+    }
+
+    /**
+     * @param mixed $last_active
+     */
+    public function setLastActive($last_active)
+    {
+        $this->last_active = $last_active;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoles()
+    {
+        return $this->roles->toArray();
+    }
+
+    /**
+     * @param mixed $roles
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+    }
+
+    /**
+     * @param Role $role
+     */
+    public function addRole(Role $role)
+    {
+        if ( !$this->roles->contains($role) ) {
+            $this->roles->add($role);
+            $role->addUser($this);
+        }
+    }
+
+    /**
+     * @param Role $role
+     */
+    public function removeRole(Role $role)
+    {
+        if ( $this->roles->contains($role) ) {
+            $this->roles->removeElement($role);
+        }
+    }
+
     ##########################################
     #             Helper Methods             #
     ##########################################
@@ -166,14 +283,6 @@ class User implements UserInterface, \Serializable
     public function getSalt()
     {
         return null;
-    }
-
-    /**
-     * @return array
-     */
-    public function getRoles()
-    {
-        return ['ROLE_TEAM'];
     }
 
     /**

@@ -6,5 +6,8 @@ netbull_auth_login:
     path:     /login
     defaults: { _controller: NetbullAuthBundle:Default:login }
 
-auth_check:
+netbull_auth_logout:
+    path:     /logout
+
+netbull_auth_check:
     path:     /auth_check
