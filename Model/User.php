@@ -1,98 +1,98 @@
 <?php
 
-namespace Netbull\AuthBundle\Entity;
+namespace Netbull\AuthBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Table(name="users")
- * @ORM\Entity(repositoryClass="Netbull\AuthBundle\Repository\UserRepository")
- *
- * @UniqueEntity(fields="email", message="Email адресът е вече зает")
- * @UniqueEntity(fields="username", message="Потребителското име е вече заето")
+ * Class User
+ * @package Netbull\AuthBundle\Model
+ * @ORM\MappedSuperclass()
  */
-class User implements UserInterface, \Serializable
+abstract class User implements UserInterface
 {
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="first_name", type="string", length=60)
      */
-    private $firstName;
+    protected $firstName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="last_name", type="string", length=60)
      */
-    private $lastName;
+    protected $lastName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=25, unique=true)
-     * @Assert\NotBlank(message="Моля въведи потребителско име")
+     * @Assert\NotBlank(message="user.username_not_blank")
      */
-    private $username;
+    protected $username;
 
     /**
-     * @Assert\NotBlank(message="Моля въведи Парола")
-     * @Assert\Length(min=7, max=4096, minMessage="Паролата трябва да е над 7 символа", maxMessage="Паролата трябва да е под 4096 символа")
+     * @Assert\NotBlank(message="user.password_not_blank")
+     * @Assert\Length(min=7, max=4096, minMessage="user.password_min", maxMessage="user.password_max")
      */
-    private $plainPassword;
+    protected $plainPassword;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=64)
      */
-    private $password;
+    protected $password;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=60, unique=true)
-     * @Assert\NotBlank(message="Моля въведи email адрес")
-     * @Assert\Email(message="Email адресът трябва да е реален")
+     * @Assert\NotBlank(message="user.email_not_blank")
+     * @Assert\Email(message="user.email_wrong")
      */
-    private $email;
+    protected $email;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="active", type="boolean")
      */
-    private $active = true;
+    protected $active = true;
 
     /**
      * @var \DateTime
      * @ORM\Column(name="last_active", type="datetime")
      */
-    private $last_active;
+    protected $last_active;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Netbull\AuthBundle\Entity\Role", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Netbull\AuthBundle\Model\RoleInterface", inversedBy="users")
+     * @ORM\JoinTable(name="users_roles",
+     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
+     * )
      */
-    private $roles;
+    protected $roles;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="facebook_id", type="integer", length=17)
      */
-    private $facebookId;
+    protected $facebookId;
 
     /**
      * User constructor.
@@ -260,9 +260,9 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @param Role $role
+     * @param RoleInterface $role
      */
-    public function addRole(Role $role)
+    public function addRole(RoleInterface $role)
     {
         if ( !$this->roles->contains($role) ) {
             $this->roles->add($role);
@@ -271,9 +271,9 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @param Role $role
+     * @param RoleInterface $role
      */
-    public function removeRole(Role $role)
+    public function removeRole(RoleInterface $role)
     {
         if ( $this->roles->contains($role) ) {
             $this->roles->removeElement($role);

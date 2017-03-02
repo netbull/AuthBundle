@@ -1,0 +1,9 @@
+user:
+    unique_email: Email адресът е вече зает
+    unique_username: Потребителското име е вече заето
+    username_not_blank: Моля въведи потребителско име
+    password_not_blank: Моля въведи Парола
+    password_min: Паролата трябва да е над 7 символа
+    password_max: Паролата трябва да е под 4096 символа
+    email_not_blank: Моля въведи email адрес
+    email_wrong: Email адресът трябва да е реален

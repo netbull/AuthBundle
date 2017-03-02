@@ -1,54 +1,56 @@
 <?php
 
-namespace Netbull\AuthBundle\Entity;
+namespace Netbull\AuthBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Table(name="user_roles")
- * @ORM\Entity()
+ * Class Role
+ * @package Netbull\AuthBundle\Model
+ *
+ * @ORM\MappedSuperclass()
  */
-class Role extends \Symfony\Component\Security\Core\Role\Role
+abstract class Role extends \Symfony\Component\Security\Core\Role\Role implements RoleInterface
 {
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Netbull\AuthBundle\Entity\Role")
+     * @ORM\ManyToOne(targetEntity="Netbull\AuthBundle\Model\RoleInterface")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      **/
-    private $parent;
+    protected $parent;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Netbull\AuthBundle\Entity\User", mappedBy="roles")
+     * @ORM\ManyToMany(targetEntity="Netbull\AuthBundle\Model\UserInterface", mappedBy="roles")
      */
-    private $users;
+    protected $users;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=30)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="role", type="string", length=50, unique=true)
      */
-    private $role;
+    protected $role;
 
     /**
      * @var int
      *
      * @ORM\Column(name="group", type="integer")
      */
-    private $group;
+    protected $group;
 
     /**
      * Role constructor..
@@ -69,7 +71,8 @@ class Role extends \Symfony\Component\Security\Core\Role\Role
 
     /**
      * @param Role $role
-     * @return $this
+     *
+     * @return Role
      */
     public function setParent(Role $role)
     {
@@ -96,16 +99,20 @@ class Role extends \Symfony\Component\Security\Core\Role\Role
 
     /**
      * @param $users
+     *
+     * @return Role
      */
     public function setUsers($users)
     {
         $this->users = $users;
+
+        return $this;
     }
 
     /**
-     * @param User $user
+     * @param UserInterface $user
      */
-    public function addUser(User $user)
+    public function addUser(UserInterface $user)
     {
         if ( !$this->users->contains($user) ) {
             $this->users->add($user);
@@ -113,17 +120,22 @@ class Role extends \Symfony\Component\Security\Core\Role\Role
     }
 
     /**
-     * @param User $user
+     * @param UserInterface $user
+     *
+     * @return Role
      */
-    public function removeUser(User $user)
+    public function removeUser(UserInterface $user)
     {
         if ( $this->users->contains($user) ) {
             $this->users->removeElement($user);
         }
+
+        return $this;
     }
 
     /**
      * @param $name
+     *
      * @return Role
      */
     public function setName($name)
@@ -134,7 +146,7 @@ class Role extends \Symfony\Component\Security\Core\Role\Role
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -151,6 +163,7 @@ class Role extends \Symfony\Component\Security\Core\Role\Role
 
     /**
      * @param $role
+     *
      * @return Role
      */
     public function setRole($role)
@@ -170,6 +183,7 @@ class Role extends \Symfony\Component\Security\Core\Role\Role
 
     /**
      * @param $group
+     *
      * @return Role
      */
     public function setGroup($group)

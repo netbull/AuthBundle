@@ -2,6 +2,7 @@
 
 namespace Netbull\AuthBundle\Providers;
 
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Router;
 
 use Facebook\Exceptions\FacebookSDKException;
@@ -49,7 +50,7 @@ class Facebook
      * @param UserManager   $userManager
      * @throws \Exception
      */
-    public function __construct( $id, $secret, Router $router, UserManager $userManager )
+    public function __construct( $id, $secret, Router $router, UserManager $userManager, Session $session )
     {
         if ( empty($id) && empty($secret) ) {
             throw new \Exception('If you want to use this provider configure it in netbull_auth.yml with the Facebook App ID and App Secret');
@@ -59,8 +60,10 @@ class Facebook
         $this->instance = new \Facebook\Facebook([
             'app_id'                => $id,
             'app_secret'            => $secret,
-            'default_graph_version' => 'v2.2',
+            'default_graph_version' => 'v2.8',
         ]);
+
+        $this->session = $session;
 
         $this->helper   = $this->instance->getRedirectLoginHelper();
         $this->userManager   = $userManager;

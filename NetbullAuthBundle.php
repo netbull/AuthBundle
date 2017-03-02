@@ -10,4 +10,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class NetbullAuthBundle extends Bundle
 {
+
 }

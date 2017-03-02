@@ -10,4 +10,4 @@ services:
 
     netbull_auth.provider.facebook:
         class: Netbull\AuthBundle\Providers\Facebook
-        arguments: [ '', '', '@router', '@netbull_auth.user_manager' ]
+        arguments: [ '', '', '@router', '@netbull_auth.user_manager', '@session' ]
