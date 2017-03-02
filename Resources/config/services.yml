@@ -2,7 +2,7 @@ services:
     netbull_auth.security.role_hierarchy:
         class: Netbull\AuthBundle\Security\RoleHierarchy
         public: false
-        arguments: [ '%security.role_hierarchy.roles%', '@doctrine.orm.default_entity_manager' ]
+        arguments: [ '%security.role_hierarchy.roles%', '@doctrine.orm.default_entity_manager', '%netbull_auth.role_class%' ]
 
     netbull_auth.user_manager:
         class: Netbull\AuthBundle\Manager\UserManager

@@ -16,14 +16,20 @@ class RoleHierarchy extends \Symfony\Component\Security\Core\Role\RoleHierarchy
     private $em;
 
     /**
-     * RoleHierarchy constructor..
-     * @param array $hierarchy
-     * @param EntityManager $em
+     * @var string
      */
-    public function __construct( array $hierarchy, EntityManager $em )
+    private $class;
+
+    /**
+     * RoleHierarchy constructor.
+     * @param array         $hierarchy
+     * @param EntityManager $em
+     * @param string        $class
+     */
+    public function __construct( array $hierarchy, EntityManager $em, $class )
     {
         parent::__construct($this->buildRolesTree());
-
+        
         $this->em = $em;
     }
 
@@ -35,7 +41,7 @@ class RoleHierarchy extends \Symfony\Component\Security\Core\Role\RoleHierarchy
     private function buildRolesTree()
     {
         $hierarchy = [];
-        $roles = $this->em->createQuery('SELECT role from NetbullAuthBundle:Role role')->execute();
+        $roles = $this->em->createQuery('SELECT role from ' . $this->class . ' role')->execute();
         foreach ( $roles as $role ) {
             if ( $role->getParent() ) {
                 if ( !isset($hierarchy[$role->getParent()->getRole()]) ) {

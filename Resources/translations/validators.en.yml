@@ -1,0 +1,9 @@
+user:
+    unique_email: The Email address is already taken
+    unique_username: The username is already taken
+    username_not_blank: Please enter a username
+    password_not_blank: Please enter a password
+    password_min: The password should be more than 7 symbols
+    password_max: The password should be less than 4096 symbols
+    email_not_blank: Please enter an email address
+    email_wrong: The Email address does not looks real
