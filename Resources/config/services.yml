@@ -1,5 +1,5 @@
 services:
-    netbull_auth.security.role_hierarchy:
+    security.role_hierarchy:
         class: Netbull\AuthBundle\Security\RoleHierarchy
         public: false
         arguments: [ '%security.role_hierarchy.roles%', '@doctrine.orm.default_entity_manager', '%netbull_auth.role_class%' ]

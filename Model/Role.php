@@ -53,7 +53,7 @@ abstract class Role extends \Symfony\Component\Security\Core\Role\Role implement
     protected $group;
 
     /**
-     * Role constructor..
+     * Role constructor.
      */
     public function __construct()
     {

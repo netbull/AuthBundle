@@ -28,9 +28,10 @@ class RoleHierarchy extends \Symfony\Component\Security\Core\Role\RoleHierarchy
      */
     public function __construct( array $hierarchy, EntityManager $em, $class )
     {
+        $this->em       = $em;
+        $this->class    = $class;
+
         parent::__construct($this->buildRolesTree());
-        
-        $this->em = $em;
     }
 
     /**
@@ -41,7 +42,7 @@ class RoleHierarchy extends \Symfony\Component\Security\Core\Role\RoleHierarchy
     private function buildRolesTree()
     {
         $hierarchy = [];
-        $roles = $this->em->createQuery('SELECT role from ' . $this->class . ' role')->execute();
+        $roles = $this->em->getRepository($this->class)->findAll();
         foreach ( $roles as $role ) {
             if ( $role->getParent() ) {
                 if ( !isset($hierarchy[$role->getParent()->getRole()]) ) {

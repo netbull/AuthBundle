@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
  * Class UserRepository
  * @package Netbull\AuthBundle\Repository
  */
-class UserRepository extends EntityRepository implements UserLoaderInterface
+abstract class UserRepository extends EntityRepository implements UserLoaderInterface
 {
     ##################################################
     #                   Auth Methods                 #
