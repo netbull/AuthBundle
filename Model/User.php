@@ -44,7 +44,7 @@ abstract class User implements UserInterface
     protected $username;
 
     /**
-     * @Assert\NotBlank(message="user.password_not_blank")
+     * @Assert\NotBlank(message="user.password_not_blank", groups={"register", "edit"})
      * @Assert\Length(min=7, max=4096, minMessage="user.password_min", maxMessage="user.password_max")
      */
     protected $plainPassword;
@@ -311,7 +311,10 @@ abstract class User implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function eraseCredentials(){ }
+    public function eraseCredentials()
+    {
+        $this->plainPassword = null;
+    }
 
     /**
      * @return string
@@ -335,5 +338,39 @@ abstract class User implements UserInterface
             $this->username,
             $this->password
             ) = unserialize($serialized);
+    }
+
+    /**
+     * Get the name of the User
+     * @return null|string
+     */
+    public function getName()
+    {
+        if( !$this->firstName && !$this->lastName ){
+            return null;
+        } else if( !$this->firstName ) {
+            return $this->lastName;
+        } else if( !$this->lastName ) {
+            return $this->firstName;
+        } else {
+            return $this->firstName . ' ' . $this->lastName;
+        }
+    }
+
+    /**
+     * Get the User Initials
+     * @return mixed|string
+     */
+    public function getInitials()
+    {
+        $initials = '';
+        if( $this->firstName ){
+            $initials .= substr($this->firstName, 0, 1);
+        }
+        if( $this->lastName ){
+            $initials .= substr($this->lastName, 0, 1);
+        }
+
+        return mb_strtoupper($initials, 'UTF-8');
     }
 }

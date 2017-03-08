@@ -1,17 +1,3 @@
-netbull_auth_register:
-    path:     /register
-    defaults: { _controller: NetbullAuthBundle:Default:register }
-
-netbull_auth_login:
-    path:     /login
-    defaults: { _controller: NetbullAuthBundle:Default:login }
-
-netbull_auth_logout:
-    path:     /logout
-
-netbull_auth_check:
-    path:     /auth_check
-
 netbull_auth_facebook_callback:
     path:     /facebook-auth
     defaults: { _controller: NetbullAuthBundle:Default:facebook }
