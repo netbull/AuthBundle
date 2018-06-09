@@ -1,3 +1,8 @@
+AuthBundle
+==========
+[![Build Status](https://travis-ci.org/netbull/AuthBundle.svg?branch=master)](https://travis-ci.org/netbull/AuthBundle)<br>
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/f91df530-6930-44c3-b300-0ac712498063/big.png)](https://insight.sensiolabs.com/projects/f91df530-6930-44c3-b300-0ac712498063)
+
 Installation
 ============
 
