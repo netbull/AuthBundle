@@ -5,6 +5,7 @@ namespace NetBull\AuthBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\OptimisticLockException;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -17,6 +18,14 @@ use NetBull\AuthBundle\Model\UserInterface;
  */
 abstract class UserRepository extends EntityRepository implements UserLoaderInterface
 {
+    public function save(UserInterface $user)
+    {
+        $this->_em->persist($user);
+        try {
+            $this->_em->flush();
+        } catch (OptimisticLockException $e) {}
+    }
+
     ##################################################
     #                   Auth Methods                 #
     ##################################################

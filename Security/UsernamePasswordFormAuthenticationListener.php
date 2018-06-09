@@ -3,6 +3,7 @@
 namespace NetBull\AuthBundle\Security;
 
 use Doctrine\ORM\EntityManagerInterface;
+use NetBull\AuthBundle\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -17,16 +18,16 @@ use NetBull\AuthBundle\Model\UserInterface;
 class UsernamePasswordFormAuthenticationListener extends BaseClass
 {
     /**
-     * @var EntityManagerInterface
+     * @var UserRepository
      */
-    protected $em;
+    protected $userRepository;
 
     /**
-     * @param EntityManagerInterface $em
+     * @param UserRepository $userRepository
      */
-    public function setEntityManager(EntityManagerInterface $em)
+    public function setUserRepository(UserRepository $userRepository)
     {
-        $this->em = $em;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -45,8 +46,7 @@ class UsernamePasswordFormAuthenticationListener extends BaseClass
             if ($user->isForceLogout()) {
                 // Clearing this flag.
                 $user->setForceLogout(false);
-                $this->em->persist($user);
-                $this->em->flush();
+                $this->userRepository->save($user);
             }
         }
 

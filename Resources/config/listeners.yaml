@@ -1,5 +1,5 @@
 services:
-    slr_auth.security.forced_logout_listener:
+    netbull_auth.security.forced_logout_listener:
         class: SLR\AuthBundle\Security\ForcedLogoutListener
         arguments:
           - '@security.token_storage'
@@ -16,6 +16,10 @@ services:
               method: onKernelRequest
               priority: 0
 
+    netbull_auth.user_repository:
+        class: NetBull\AuthBundle\Repository\UserRepository
+        public: false
+
     # Overriding Symfony's default login listener
     security.authentication.listener.form:
         class: SLR\AuthBundle\Security\UsernamePasswordFormAuthenticationListener
@@ -25,4 +29,4 @@ services:
         autoconfigure: false
         public: false
         calls:
-          - [setEntityManager, ['@doctrine.orm.entity_manager']]
+          - [setUserRepository, ['@netbull_auth.user_repository']]
