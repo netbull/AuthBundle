@@ -1,4 +1,4 @@
 services:
     netbull_auth.access_denied_activation_strategy:
-        class: SLR\AuthBundle\Security\AccessDeniedActivationStrategy
+        class: NetBull\AuthBundle\Security\AccessDeniedActivationStrategy
         arguments: [ '@request_stack' ]

@@ -28,7 +28,7 @@ class NetBullAuthExtension extends Extension
         if ($config['listeners']) {
             $loader->load('listeners.yaml');
 
-            $service = $container->getDefinition('slr_auth.security.forced_logout_listener');
+            $service = $container->getDefinition('netbull_auth.security.forced_logout_listener');
             $service->replaceArgument(5, $config['session']['name']);
             $service->replaceArgument(6, $config['session']['remember_me_name']);
             $service->replaceArgument(7, $config['login_route']);

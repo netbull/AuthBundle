@@ -1,6 +1,6 @@
 services:
     netbull_auth.security.forced_logout_listener:
-        class: SLR\AuthBundle\Security\ForcedLogoutListener
+        class: NetBull\AuthBundle\Security\ForcedLogoutListener
         arguments:
           - '@security.token_storage'
           - '@security.authorization_checker'
@@ -22,7 +22,7 @@ services:
 
     # Overriding Symfony's default login listener
     security.authentication.listener.form:
-        class: SLR\AuthBundle\Security\UsernamePasswordFormAuthenticationListener
+        class: NetBull\AuthBundle\Security\UsernamePasswordFormAuthenticationListener
         parent: security.authentication.listener.abstract
         abstract: true
         autowire: true
