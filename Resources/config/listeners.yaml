@@ -17,8 +17,9 @@ services:
               priority: 0
 
     netbull_auth.user_repository:
-        class: NetBull\AuthBundle\Repository\UserRepository
-        public: false
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments: [ 'NetBull\AuthBundle\Entity\User' ]
 
     # Overriding Symfony's default login listener
     security.authentication.listener.form:

@@ -18,6 +18,9 @@ use NetBull\AuthBundle\Model\UserInterface;
  */
 class UserRepository extends EntityRepository implements UserLoaderInterface
 {
+    /**
+     * @param UserInterface $user
+     */
     public function save(UserInterface $user)
     {
         $this->_em->persist($user);
