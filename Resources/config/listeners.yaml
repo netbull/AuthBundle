@@ -1,0 +1,28 @@
+services:
+    slr_auth.security.forced_logout_listener:
+        class: SLR\AuthBundle\Security\ForcedLogoutListener
+        arguments:
+          - '@security.token_storage'
+          - '@security.authorization_checker'
+          - '@session'
+          - '@router'
+          - '@doctrine.orm.entity_manager'
+          - ''
+          - ''
+          - ''
+        tags:
+            - name: kernel.event_listener
+              event: kernel.request
+              method: onKernelRequest
+              priority: 0
+
+    # Overriding Symfony's default login listener
+    security.authentication.listener.form:
+        class: SLR\AuthBundle\Security\UsernamePasswordFormAuthenticationListener
+        parent: security.authentication.listener.abstract
+        abstract: true
+        autowire: true
+        autoconfigure: false
+        public: false
+        calls:
+          - [setEntityManager, ['@doctrine.orm.entity_manager']]
