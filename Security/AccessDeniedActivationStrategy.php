@@ -40,7 +40,7 @@ class AccessDeniedActivationStrategy extends ErrorLevelActivationStrategy
             $isActivated
             && isset($record['context']['exception'])
             && $record['context']['exception'] instanceof AccessDeniedException
-            && ($request = $this->requestStack->getMasterRequest())
+            && $this->requestStack->getMasterRequest()
         ) {
             return false;
         }

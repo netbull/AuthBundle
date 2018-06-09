@@ -66,13 +66,13 @@ class RoleHierarchy extends BaseRoleHierarchy
 
     /**
      * Here we build an array with roles. It looks like a two-levelled tree - just
-     * like original Symfony roles are stored in security.ym``l
+     * like original Symfony roles are stored in security.yaml
      * @return array
      */
     private function buildRolesTree()
     {
         $hierarchy = [];
-        $roles = $this->em->createQuery('SELECT r FROM ' . RoleInterface::class . ' r')->execute();
+        $roles = $this->em->createQuery('SELECT r FROM NetBullAuthBundle:Role r')->execute();
 
         /** @var RoleInterface $role */
         foreach ($roles as $role) {

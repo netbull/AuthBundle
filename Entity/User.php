@@ -110,11 +110,11 @@ class User implements BaseInterface, UserInterface, EquatableInterface, \Seriali
     /**
      * User constructor.
      */
-    function __construct()
+    public function __construct()
     {
         $this->rawRoles = new ArrayCollection();
 
-        if ($this->lastActive == null) {
+        if (null === $this->lastActive) {
             $this->lastActive = new \DateTime('now');
         }
     }
