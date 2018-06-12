@@ -34,4 +34,12 @@ class NetBullAuthExtension extends Extension
             $service->replaceArgument(7, $config['login_route']);
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getAlias()
+    {
+        return 'netbull_media';
+    }
 }
