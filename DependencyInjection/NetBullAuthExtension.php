@@ -40,6 +40,6 @@ class NetBullAuthExtension extends Extension
      */
     public function getAlias()
     {
-        return 'netbull_media';
+        return 'netbull_auth';
     }
 }
