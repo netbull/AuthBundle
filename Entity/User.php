@@ -452,11 +452,11 @@ class User implements BaseInterface, UserInterface, EquatableInterface, \Seriali
     {
         $initials = '';
         if ($this->firstName) {
-            $initials .= substr($this->firstName, 0, 1);
+            $initials .= mb_substr($this->firstName, 0, 1, 'UTF-8');
         }
 
         if ($this->lastName) {
-            $initials .= substr($this->lastName, 0, 1);
+            $initials .= mb_substr($this->lastName, 0, 1, 'UTF-8');
         }
 
         return mb_strtoupper($initials, 'UTF-8');
