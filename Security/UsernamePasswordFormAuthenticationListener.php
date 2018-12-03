@@ -2,10 +2,9 @@
 
 namespace NetBull\AuthBundle\Security;
 
-use Doctrine\ORM\EntityManagerInterface;
-use NetBull\AuthBundle\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use NetBull\AuthBundle\Repository\UserRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener as BaseClass;
 
@@ -32,8 +31,8 @@ class UsernamePasswordFormAuthenticationListener extends BaseClass
 
     /**
      * @param Request $request
-     *
      * @return null|Response|TokenInterface
+     * @throws \Doctrine\ORM\ORMException
      */
     protected function attemptAuthentication(Request $request)
     {

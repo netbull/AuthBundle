@@ -3,7 +3,6 @@
 namespace NetBull\AuthBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
@@ -20,6 +19,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 {
     /**
      * @param UserInterface $user
+     * @throws \Doctrine\ORM\ORMException
      */
     public function save(UserInterface $user)
     {
@@ -39,7 +39,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     {
         try {
             return $this->loadUserByUsernameQuery($username)->getOneOrNullResult();
-        } catch (NoResultException | NonUniqueResultException $e) {
+        } catch (NonUniqueResultException $e) {
             $message = sprintf(
                 'Unable to find an active account AuthBundle:User object identified by "%s".',
                 $username
@@ -112,7 +112,6 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     /**
      * @param $email
      * @return bool
-     * @throws NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function checkEmailAvailability($email)

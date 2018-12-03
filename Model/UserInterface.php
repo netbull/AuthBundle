@@ -147,9 +147,7 @@ interface UserInterface
     public function removeRawRole(RoleInterface $role);
 
     ######################################################
-    #                                                    #
     #                   Helper Methods                   #
-    #                                                    #
     ######################################################
 
     /**

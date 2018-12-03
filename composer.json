@@ -6,9 +6,7 @@
     "name" : "Aleksandar Dimitrov",
     "email" : "netbull2007@gmail.com"
   }],
-  "license" : [
-    "MIT"
-  ],
+  "license" : "AGPL-3.0-or-later",
   "require" : {
     "php": "^7.1.3",
     "symfony/framework-bundle": "~4.0"

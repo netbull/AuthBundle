@@ -3,7 +3,6 @@
 namespace NetBull\AuthBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-
 use NetBull\AuthBundle\DependencyInjection\NetBullAuthExtension;
 
 /**
