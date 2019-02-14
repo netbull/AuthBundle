@@ -42,7 +42,7 @@ class UsernamePasswordFormAuthenticationListener extends BaseClass
             /** @var UserInterface $user */
             $user = $result->getUser();
 
-            if ($user->isForceLogout()) {
+            if ($user instanceof UserInterface && $user->isForceLogout()) {
                 // Clearing this flag.
                 $user->setForceLogout(false);
                 $this->userRepository->save($user);

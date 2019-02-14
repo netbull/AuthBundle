@@ -109,7 +109,7 @@ class ForcedLogoutListener
         $user = $accessToken->getUser();
 
         // Forcing user to log out if required.
-        if ($user->isForceLogout()) {
+        if ($user instanceof UserInterface && $user->isForceLogout()) {
             // Logging user out.
             $response = $this->getRedirectResponse($this->loginRoute);
             $this->logUserOut($response);
