@@ -32,7 +32,7 @@ class AccessDeniedActivationStrategy extends ErrorLevelActivationStrategy
      * @param array $record
      * @return bool
      */
-    public function isHandlerActivated(array $record)
+    public function isHandlerActivated(array $record): bool
     {
         $isActivated = parent::isHandlerActivated($record);
 
