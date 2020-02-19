@@ -11,18 +11,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 interface RoleInterface
 {
     /**
-     * @inheritdoc
+     * @return string|null
      */
     public function getId();
 
     /**
      * @param RoleInterface $role
-     * @return $this
+     * @return mixed
      */
     public function setParent(RoleInterface $role);
 
     /**
-     * @return RoleInterface
+     * @return RoleInterface|null
      */
     public function getParent();
 
@@ -32,47 +32,37 @@ interface RoleInterface
     public function getUsers();
 
     /**
-     * @param ArrayCollection $users
+     * @param UserInterface[]|ArrayCollection $users
      */
     public function setUsers($users);
 
     /**
-     * @param UserInterface $user
-     */
-    public function addUser(UserInterface $user);
-
-    /**
-     * @param UserInterface $user
-     */
-    public function removeUser(UserInterface $user);
-
-    /**
      * @param string $name
      */
-    public function setName($name);
+    public function setName(string $name);
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getName();
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getRole();
 
     /**
      * @param string $role
      */
-    public function setRole($role);
+    public function setRole(string $role);
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getGroup();
 
     /**
      * @param string $group
      */
-    public function setGroup($group);
+    public function setGroup(string $group);
 }

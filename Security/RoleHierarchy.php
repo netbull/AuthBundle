@@ -4,7 +4,6 @@ namespace NetBull\AuthBundle\Security;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Role\RoleHierarchy as BaseRoleHierarchy;
-
 use NetBull\AuthBundle\Model\RoleInterface;
 
 /**

@@ -4,7 +4,6 @@ namespace NetBull\AuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
 use NetBull\AuthBundle\Model\RoleInterface;
 use NetBull\AuthBundle\Model\UserInterface;
 
@@ -14,28 +13,38 @@ use NetBull\AuthBundle\Model\UserInterface;
 class Role implements RoleInterface
 {
     /**
+     * @var RoleInterface|null
+     *
      * @ORM\ManyToOne(targetEntity="NetBull\AuthBundle\Model\RoleInterface")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      **/
     protected $parent;
 
     /**
+     * @var UserInterface[]|ArrayCollection
+     *
      * @ORM\ManyToMany(targetEntity="NetBull\AuthBundle\Model\UserInterface", mappedBy="rawRoles")
      */
     protected $users;
 
     /**
-     * @ORM\Column(name="name", type="string", length=30)
+     * @var string|null
+     *
+     * @ORM\Column(length=30)
      */
     protected $name;
 
     /**
-     * @ORM\Column(name="role", type="string", length=50, unique=true)
+     * @var string|null
+     *
+     * @ORM\Column(length=50, unique=true)
      */
     protected $role;
 
     /**
-     * @ORM\Column(name="group", type="string", length=30)
+     * @var string|null
+     *
+     * @ORM\Column(name="group_name", length=30)
      */
     protected $group;
 
@@ -56,23 +65,26 @@ class Role implements RoleInterface
     }
 
     /**
-     * @inheritdoc
+     * @return RoleInterface|null
      */
-    public function setParent(RoleInterface $role)
-    {
-        $this->parent = $role;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getParent()
+    public function getParent(): ?RoleInterface
     {
         return $this->parent;
     }
 
     /**
-     * @inheritdoc
+     * @param RoleInterface|null $parent
+     * @return Role
+     */
+    public function setParent(?RoleInterface $parent): Role
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection|UserInterface[]
      */
     public function getUsers()
     {
@@ -80,79 +92,71 @@ class Role implements RoleInterface
     }
 
     /**
-     * @inheritdoc
+     * @param ArrayCollection|UserInterface[] $users
+     * @return Role
      */
     public function setUsers($users)
     {
         $this->users = $users;
+
+        return $this;
     }
 
     /**
-     * @inheritdoc
+     * @return string|null
      */
-    public function addUser(UserInterface $user)
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removeUser(UserInterface $user)
-    {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @inheritdoc
+     * @param string|null $name
+     * @return Role
      */
-    public function getRole()
+    public function setName(?string $name): Role
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getRole(): ?string
     {
         return $this->role;
     }
 
     /**
-     * @inheritdoc
+     * @param string|null $role
+     * @return Role
      */
-    public function setRole($role)
+    public function setRole(?string $role): Role
     {
         $this->role = $role;
+
+        return $this;
     }
 
     /**
-     * @inheritdoc
+     * @return string|null
      */
-    public function getGroup()
+    public function getGroup(): ?string
     {
         return $this->group;
     }
 
     /**
-     * @inheritdoc
+     * @param string|null $group
+     * @return Role
      */
-    public function setGroup($group)
+    public function setGroup(?string $group): Role
     {
         $this->group = $group;
+
+        return $this;
     }
 
     /**

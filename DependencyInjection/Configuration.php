@@ -22,7 +22,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->booleanNode('listeners')->defaultTrue()->end()
-                ->scalarNode('login_route')->isRequired()->end()
+                ->scalarNode('login_route')->defaultNull()->end()
                 ->arrayNode('session')
                     ->addDefaultsIfNotSet()
                     ->children()

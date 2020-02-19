@@ -2,13 +2,16 @@
 
 namespace NetBull\AuthBundle\Repository;
 
+use DateTime;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\ORMException;
+use Exception;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
-
 use NetBull\AuthBundle\Model\UserInterface;
 
 /**
@@ -19,7 +22,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 {
     /**
      * @param UserInterface $user
-     * @throws \Doctrine\ORM\ORMException
+     * @throws ORMException
      */
     public function save(UserInterface $user)
     {
@@ -69,8 +72,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
                 $qb->expr()->eq('u.username', ':username')
             ))
             ->andWhere($qb->expr()->eq('u.active', true))
-            ->setParameter('username', $username)
-            ;
+            ->setParameter('username', $username);
     }
 
     /**
@@ -112,7 +114,6 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     /**
      * @param $email
      * @return bool
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function checkEmailAvailability($email)
     {
@@ -123,7 +124,11 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             ->setParameter('email', $email)
         ;
 
-        $status = $qb->getQuery()->getSingleScalarResult();
+        try {
+            $status = $qb->getQuery()->getSingleScalarResult();
+        } catch (NoResultException | NonUniqueResultException $e) {
+            return false;
+        }
 
         return (int)$status === 0;
     }
@@ -138,15 +143,19 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             $ids = [$ids];
         }
 
-        $now = new \DateTime('now');
+        try {
+            $now = new DateTime('now');
+        } catch (Exception $e) {
+            return;
+        }
+
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->update($this->getEntityName(), 'u')
             ->set('u.lastActive', ':time')
             ->where($qb->expr()->in('u.id', ':ids'))
             ->setParameter('ids', $ids)
             ->setParameter('time', $now)
-            ->getQuery()->execute()
-        ;
+            ->getQuery()->execute();
     }
 
     /**
@@ -156,12 +165,12 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     public function getLastActive(UserInterface $user)
     {
         $qb = $this->createQueryBuilder('u');
-        $qb->where($qb->expr()->eq('u.active', ':isActive'))
+        $qb->where($qb->expr()->eq('u.active', ':active'))
             ->andWhere($qb->expr()->neq('u.id', ':currentUser'))
             ->orderBy('u.lastActive', 'desc')
             ->setParameters([
-                'currentUser'   => $user->getId(),
-                'isActive'      => true
+                'currentUser' => $user->getId(),
+                'active' => true
             ])
         ;
 

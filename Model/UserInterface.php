@@ -2,6 +2,7 @@
 
 namespace NetBull\AuthBundle\Model;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -11,85 +12,79 @@ use Doctrine\Common\Collections\ArrayCollection;
 interface UserInterface
 {
     /**
-     * Get id
-     *
-     * @return integer
+     * @return int|null
      */
     public function getId();
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getType();
 
     /**
      * @param string $type
      */
-    public function setType($type);
+    public function setType(string $type);
+
+    /**
+     * @param string $email
+     */
+    public function setEmail(string $email);
+
+    /**
+     * @return string|null
+     */
+    public function getEmail();
 
     /**
      * @param string $username
      */
-    public function setUsername($username);
+    public function setUsername(string $username);
 
     /**
-     * @return string
+     * @return string|null
+     */
+    public function getUsername();
+
+    /**
+     * @return string|null
      */
     public function getFirstName();
 
     /**
      * @param string $firstName
      */
-    public function setFirstName($firstName);
+    public function setFirstName(string $firstName);
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getLastName();
 
     /**
      * @param string $lastName
      */
-    public function setLastName($lastName);
+    public function setLastName(string $lastName);
 
     /**
-     * @return string
+     * @param string $password
      */
-    public function getUsername();
+    public function setPassword(string $password);
 
     /**
-     * Set email
-     *
-     * @param string $email
-     */
-    public function setEmail($email);
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail();
-
-    /**
-     * @inheritDoc
-     */
-    public function setPassword($password);
-
-    /**
-     * @return mixed
+     * @return string|null
      */
     public function getPlainPassword();
 
     /**
-     * @param mixed $plainPassword
+     * @param string $plainPassword
      */
-    public function setPlainPassword($plainPassword);
+    public function setPlainPassword(string $plainPassword);
 
     /**
-     * @inheritdoc
+     * @param string|null $salt
      */
-    public function setSalt($salt);
+    public function setSalt(?string $salt);
 
     /**
      * @return string
@@ -97,20 +92,24 @@ interface UserInterface
     public function getLastActive();
 
     /**
-     * @param $lastActive
-     * @return $this
+     * @param DateTime $lastActive
      */
-    public function setLastActive($lastActive);
+    public function setLastActive(DateTime $lastActive);
 
     /**
-     * @return bool Whether the user is active or not
+     * @return bool
      */
     public function isActiveNow();
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isActive();
+
+    /**
+     * @param bool $active
+     */
+    public function setActive(bool $active);
 
     /**
      * @return bool
@@ -120,12 +119,7 @@ interface UserInterface
     /**
      * @param bool $forceLogout
      */
-    public function setForceLogout($forceLogout);
-
-    /**
-     * @param $active
-     */
-    public function setActive($active);
+    public function setForceLogout(bool $forceLogout);
 
     /**
      * @return ArrayCollection|RoleInterface[]
@@ -139,7 +133,6 @@ interface UserInterface
 
     /**
      * @param RoleInterface $role
-     * @return $this
      */
     public function addRawRole(RoleInterface $role);
 

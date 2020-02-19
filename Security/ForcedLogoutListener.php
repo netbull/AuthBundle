@@ -3,15 +3,15 @@
 namespace NetBull\AuthBundle\Security;
 
 use Doctrine\ORM\EntityManagerInterface;
+use NetBull\AuthBundle\Exception\NoLoginRouteException;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
-
 use NetBull\AuthBundle\Model\UserInterface;
 
 /**
@@ -93,11 +93,10 @@ class ForcedLogoutListener
     }
 
     /**
-     * @param GetResponseEvent $event
-     *
-     * @return RedirectResponse|void
+     * @param RequestEvent $event
+     * @throws NoLoginRouteException
      */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
         if (!$event->isMasterRequest() || !$this->isUserLoggedIn()) {
             return;
@@ -110,6 +109,10 @@ class ForcedLogoutListener
 
         // Forcing user to log out if required.
         if ($user instanceof UserInterface && $user->isForceLogout()) {
+            if (!$this->loginRoute) {
+                throw new NoLoginRouteException;
+            }
+
             // Logging user out.
             $response = $this->getRedirectResponse($this->loginRoute);
             $this->logUserOut($response);

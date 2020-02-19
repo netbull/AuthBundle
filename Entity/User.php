@@ -2,13 +2,14 @@
 
 namespace NetBull\AuthBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Serializable;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
 use NetBull\AuthBundle\Model\RoleInterface;
 use NetBull\AuthBundle\Model\UserInterface as BaseInterface;
 
@@ -20,84 +21,91 @@ use NetBull\AuthBundle\Model\UserInterface as BaseInterface;
  *
  * @ORM\MappedSuperclass(repositoryClass="NetBull\AuthBundle\Repository\UserRepository")
  */
-class User implements BaseInterface, UserInterface, EquatableInterface, \Serializable
+class User implements BaseInterface, UserInterface, EquatableInterface, Serializable
 {
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="type", type="string", length=255)
+     * @ORM\Column(length=30)
      */
     protected $type;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="username", type="string", length=255, nullable=true)
+     * @ORM\Column(length=100, nullable=true)
      */
     protected $username;
 
     /**
-     * @var string
-     * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
+     * @var string|null
+     *
+     * @ORM\Column(length=80, nullable=true)
      */
     protected $firstName;
 
     /**
-     * @var string
-     * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
+     * @var string|null
+     *
+     * @ORM\Column(length=80, nullable=true)
      */
     protected $lastName;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @Assert\NotBlank(message="Please enter a valid email address.")
      * @Assert\Email(message="The provided Email is not valid.")
      *
-     * @ORM\Column(name="email", type="string", length=255)
+     * @ORM\Column
      */
     protected $email;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="password", type="string", length=255)
+     * @ORM\Column
      */
     protected $password;
 
     /**
+     * @var string|null
+     *
      * @Assert\Length(max=4096)
      */
     protected $plainPassword;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="salt", type="string", length=255, nullable=true)
+     * @ORM\Column(nullable=true)
      */
     protected $salt;
 
     /**
-     * @var \DateTime
-     * @ORM\Column(name="last_active", type="datetime")
+     * @var DateTime|null
+     *
+     * @ORM\Column(type="datetime")
      */
     protected $lastActive;
 
     /**
-     * @var boolean
+     * @var bool
      *
-     * @ORM\Column(name="active", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     protected $active = false;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="force_logout", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     protected $forceLogout = false;
 
     /**
+     * @var RoleInterface[]|ArrayCollection
+     *
      * @ORM\ManyToMany(targetEntity="NetBull\AuthBundle\Model\RoleInterface", inversedBy="users")
      * @ORM\JoinTable(name="user_role",
      *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")},
@@ -114,7 +122,7 @@ class User implements BaseInterface, UserInterface, EquatableInterface, \Seriali
         $this->rawRoles = new ArrayCollection();
 
         if (null === $this->lastActive) {
-            $this->lastActive = new \DateTime('now');
+            $this->lastActive = new DateTime('now');
         }
     }
 
@@ -129,148 +137,262 @@ class User implements BaseInterface, UserInterface, EquatableInterface, \Seriali
     }
 
     /**
-     * @inheritdoc
+     * @return string|null
      */
-    public function getType()
+    public function getType(): ?string
     {
         return $this->type;
     }
 
     /**
-     * @inheritdoc
+     * @param string|null $type
+     * @return User
      */
-    public function setType($type)
+    public function setType(?string $type): User
     {
         $this->type = $type;
+
+        return $this;
     }
 
     /**
-     * @inheritdoc
+     * @return string|null
      */
-    public function getUsername()
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
     /**
-     * @inheritdoc
+     * @param string|null $username
+     * @return User
      */
-    public function setUsername($username)
+    public function setUsername(?string $username): User
     {
         $this->username = $username;
+
+        return $this;
     }
 
     /**
-     * @inheritdoc
+     * @return string|null
      */
-    public function getFirstName()
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
     /**
-     * @inheritdoc
+     * @param string|null $firstName
+     * @return User
      */
-    public function setFirstName($firstName)
+    public function setFirstName(?string $firstName): User
     {
         $this->firstName = $firstName;
+
+        return $this;
     }
 
     /**
-     * @inheritdoc
+     * @return string|null
      */
-    public function getLastName()
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
     /**
-     * @inheritdoc
+     * @param string|null $lastName
+     * @return User
      */
-    public function setLastName($lastName)
+    public function setLastName(?string $lastName): User
     {
         $this->lastName = $lastName;
+
+        return $this;
     }
 
     /**
-     * @inheritdoc
+     * @return string|null
      */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
     /**
-     * @inheritdoc
+     * @param string|null $email
+     * @return User
      */
-    public function setPassword($password)
+    public function setEmail(?string $email): User
     {
-        $this->password = $password;
+        $this->email = $email;
+
+        return $this;
     }
 
     /**
-     * @inheritdoc
+     * @return string|null
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
     /**
-     * @inheritdoc
+     * @param string|null $password
+     * @return User
      */
-    public function getPlainPassword()
+    public function setPassword(?string $password): User
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
 
     /**
-     * @inheritdoc
+     * @param string|null $plainPassword
+     * @return User
      */
-    public function setPlainPassword($plainPassword)
+    public function setPlainPassword(?string $plainPassword): User
     {
         $this->plainPassword = $plainPassword;
+
+        return $this;
     }
 
     /**
-     * @inheritdoc
+     * @return string|null
      */
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getSalt()
+    public function getSalt(): ?string
     {
         return $this->salt;
     }
 
     /**
-     * @inheritdoc
+     * @param string|null $salt
+     * @return User
      */
-    public function getLastActive()
+    public function setSalt(?string $salt): User
+    {
+        $this->salt = $salt;
+
+        return $this;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getLastActive(): ?DateTime
     {
         return $this->lastActive;
     }
 
     /**
-     * @inheritdoc
+     * @param DateTime|null $lastActive
+     * @return User
      */
-    public function setLastActive($lastActive)
+    public function setLastActive(?DateTime $lastActive): User
     {
         $this->lastActive = $lastActive;
+
+        return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param bool $active
+     * @return User
+     */
+    public function setActive(bool $active): User
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isForceLogout(): bool
+    {
+        return $this->forceLogout;
+    }
+
+    /**
+     * @param bool $forceLogout
+     * @return User
+     */
+    public function setForceLogout(bool $forceLogout): User
+    {
+        $this->forceLogout = $forceLogout;
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection|RoleInterface[]
+     */
+    public function getRawRoles()
+    {
+        return $this->rawRoles;
+    }
+
+    /**
+     * @param ArrayCollection|RoleInterface[] $rawRoles
+     * @return User
+     */
+    public function setRawRoles($rawRoles)
+    {
+        $this->rawRoles = $rawRoles;
+
+        return $this;
+    }
+
+    /**
+     * @param RoleInterface $role
+     * @return $this
+     */
+    public function addRawRole(RoleInterface $role)
+    {
+        if (!$this->rawRoles->contains($role)) {
+            $this->rawRoles->add($role);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param RoleInterface $role
+     * @return $this
+     */
+    public function removeRawRole(RoleInterface $role)
+    {
+        if ($this->rawRoles->contains($role)) {
+            $this->rawRoles->removeElement($role);
+        }
+
+        return $this;
+    }
+
+    ######################################################
+    #                   Helper Methods                   #
+    ######################################################
 
     /**
      * @inheritdoc
@@ -278,41 +400,9 @@ class User implements BaseInterface, UserInterface, EquatableInterface, \Seriali
     public function isActiveNow()
     {
         // Delay during which the user will be considered as still active
-        $delay = new \DateTime('3 minutes ago');
+        $delay = new DateTime('3 minutes ago');
 
         return ($this->getLastActive() > $delay);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function isActive()
-    {
-        return $this->active;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setActive($active)
-    {
-        $this->active = $active;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isForceLogout()
-    {
-        return $this->forceLogout;
-    }
-
-    /**
-     * @param bool $forceLogout
-     */
-    public function setForceLogout($forceLogout)
-    {
-        $this->forceLogout = $forceLogout;
     }
 
     /**
@@ -327,52 +417,10 @@ class User implements BaseInterface, UserInterface, EquatableInterface, \Seriali
         return $roles;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getRawRoles()
+    public function eraseCredentials()
     {
-        return $this->rawRoles;
+        $this->plainPassword = null;
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function setRawRoles($roles)
-    {
-        $this->rawRoles = $roles;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addRawRole(RoleInterface $role)
-    {
-        if (!$this->rawRoles->contains($role)) {
-            $this->rawRoles->add($role);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removeRawRole(RoleInterface $role)
-    {
-        if ($this->rawRoles->contains($role)) {
-            $this->rawRoles->removeElement($role);
-        }
-    }
-
-    ######################################################
-    #                                                    #
-    #                   Helper Methods                   #
-    #                                                    #
-    ######################################################
-
-    /**
-     * @inheritdoc
-     */
-    public function eraseCredentials() {}
 
     /**
      * @param UserInterface $user
