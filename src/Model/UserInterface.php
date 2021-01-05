@@ -14,12 +14,12 @@ interface UserInterface
     /**
      * @return int|null
      */
-    public function getId();
+    public function getId(): ?int;
 
     /**
      * @return string|null
      */
-    public function getType();
+    public function getType(): ?string;
 
     /**
      * @param string $type
@@ -34,7 +34,7 @@ interface UserInterface
     /**
      * @return string|null
      */
-    public function getEmail();
+    public function getEmail(): ?string;
 
     /**
      * @param string $username
@@ -44,12 +44,12 @@ interface UserInterface
     /**
      * @return string|null
      */
-    public function getUsername();
+    public function getUsername(): ?string;
 
     /**
      * @return string|null
      */
-    public function getFirstName();
+    public function getFirstName(): ?string;
 
     /**
      * @param string $firstName
@@ -59,7 +59,7 @@ interface UserInterface
     /**
      * @return string|null
      */
-    public function getLastName();
+    public function getLastName(): ?string;
 
     /**
      * @param string $lastName
@@ -74,7 +74,7 @@ interface UserInterface
     /**
      * @return string|null
      */
-    public function getPlainPassword();
+    public function getPlainPassword(): ?string;
 
     /**
      * @param string $plainPassword
@@ -87,9 +87,9 @@ interface UserInterface
     public function setSalt(?string $salt);
 
     /**
-     * @return string
+     * @return DateTime|null
      */
-    public function getLastActive();
+    public function getLastActive(): ?DateTime;
 
     /**
      * @param DateTime $lastActive
@@ -99,12 +99,12 @@ interface UserInterface
     /**
      * @return bool
      */
-    public function isActiveNow();
+    public function isActiveNow(): bool;
 
     /**
      * @return bool
      */
-    public function isActive();
+    public function isActive(): bool;
 
     /**
      * @param bool $active
@@ -114,7 +114,7 @@ interface UserInterface
     /**
      * @return bool
      */
-    public function isForceLogout();
+    public function isForceLogout(): bool;
 
     /**
      * @param bool $forceLogout
@@ -158,13 +158,13 @@ interface UserInterface
 
     /**
      * Get the name of the User
-     * @return null|string
+     * @return string|null
      */
-    public function getName();
+    public function getName(): ?string;
 
     /**
      * Get the User Initials
-     * @return mixed|string
+     * @return string|null
      */
-    public function getInitials();
+    public function getInitials(): ?string;
 }

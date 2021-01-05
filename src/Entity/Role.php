@@ -10,7 +10,7 @@ use NetBull\AuthBundle\Model\UserInterface;
 /**
  * @ORM\MappedSuperclass(repositoryClass="NetBull\AuthBundle\Repository\RoleRepository")
  */
-class Role implements RoleInterface
+abstract class Role implements RoleInterface
 {
     /**
      * @var RoleInterface|null
@@ -57,14 +57,6 @@ class Role implements RoleInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * @return RoleInterface|null
      */
     public function getParent(): ?RoleInterface
@@ -73,12 +65,12 @@ class Role implements RoleInterface
     }
 
     /**
-     * @param RoleInterface|null $parent
+     * @param RoleInterface|null $role
      * @return Role
      */
-    public function setParent(?RoleInterface $parent): Role
+    public function setParent(?RoleInterface $role): Role
     {
-        $this->parent = $parent;
+        $this->parent = $role;
 
         return $this;
     }
@@ -162,7 +154,7 @@ class Role implements RoleInterface
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getName();
     }

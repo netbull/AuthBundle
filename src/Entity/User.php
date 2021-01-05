@@ -14,14 +14,12 @@ use NetBull\AuthBundle\Model\RoleInterface;
 use NetBull\AuthBundle\Model\UserInterface as BaseInterface;
 
 /**
- * User
- *
  * @UniqueEntity(fields="email", message="Sorry, this email address is already in use.", entityClass="NetBull\AuthBundle\Model\UserInterface")
  * @UniqueEntity(fields="username", message="Sorry, this username is already in use.", entityClass="NetBull\AuthBundle\Model\UserInterface")
  *
  * @ORM\MappedSuperclass(repositoryClass="NetBull\AuthBundle\Repository\UserRepository")
  */
-class User implements BaseInterface, UserInterface, EquatableInterface, Serializable
+abstract class User implements BaseInterface, UserInterface, EquatableInterface, Serializable
 {
     /**
      * @var string|null
@@ -85,7 +83,7 @@ class User implements BaseInterface, UserInterface, EquatableInterface, Serializ
     /**
      * @var DateTime|null
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $lastActive;
 
@@ -120,20 +118,6 @@ class User implements BaseInterface, UserInterface, EquatableInterface, Serializ
     public function __construct()
     {
         $this->rawRoles = new ArrayCollection();
-
-        if (null === $this->lastActive) {
-            $this->lastActive = new DateTime('now');
-        }
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -354,12 +338,12 @@ class User implements BaseInterface, UserInterface, EquatableInterface, Serializ
     }
 
     /**
-     * @param ArrayCollection|RoleInterface[] $rawRoles
+     * @param ArrayCollection|RoleInterface[] $roles
      * @return User
      */
-    public function setRawRoles($rawRoles)
+    public function setRawRoles($roles): User
     {
-        $this->rawRoles = $rawRoles;
+        $this->rawRoles = $roles;
 
         return $this;
     }
@@ -368,7 +352,7 @@ class User implements BaseInterface, UserInterface, EquatableInterface, Serializ
      * @param RoleInterface $role
      * @return $this
      */
-    public function addRawRole(RoleInterface $role)
+    public function addRawRole(RoleInterface $role): User
     {
         if (!$this->rawRoles->contains($role)) {
             $this->rawRoles->add($role);
@@ -381,7 +365,7 @@ class User implements BaseInterface, UserInterface, EquatableInterface, Serializ
      * @param RoleInterface $role
      * @return $this
      */
-    public function removeRawRole(RoleInterface $role)
+    public function removeRawRole(RoleInterface $role): User
     {
         if ($this->rawRoles->contains($role)) {
             $this->rawRoles->removeElement($role);
@@ -397,7 +381,7 @@ class User implements BaseInterface, UserInterface, EquatableInterface, Serializ
     /**
      * @inheritdoc
      */
-    public function isActiveNow()
+    public function isActiveNow(): bool
     {
         // Delay during which the user will be considered as still active
         $delay = new DateTime('3 minutes ago');
@@ -410,11 +394,9 @@ class User implements BaseInterface, UserInterface, EquatableInterface, Serializ
      */
     public function getRoles()
     {
-        $roles = $this->rawRoles->map(function (Role $role) {
+        return $this->rawRoles->map(function (Role $role) {
             return $role->getRole();
         })->toArray();
-
-        return $roles;
     }
 
     public function eraseCredentials()
@@ -471,14 +453,14 @@ class User implements BaseInterface, UserInterface, EquatableInterface, Serializ
             $this->password,
             $this->salt,
             $this->email,
-            ) = unserialize($serialized);
+        ) = unserialize($serialized);
     }
 
     /**
      * Get the name of the User
-     * @return null|string
+     * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         if (!$this->firstName && !$this->lastName) {
             return null;
@@ -492,10 +474,9 @@ class User implements BaseInterface, UserInterface, EquatableInterface, Serializ
     }
 
     /**
-     * Get the User Initials
-     * @return mixed|string
+     * @return string|null
      */
-    public function getInitials()
+    public function getInitials(): ?string
     {
         $initials = '';
         if ($this->firstName) {
