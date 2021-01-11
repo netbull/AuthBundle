@@ -11,9 +11,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 interface RoleInterface
 {
     /**
-     * @return string|null
+     * @return int|null
      */
-    public function getId();
+    public function getId(): ?int;
 
     /**
      * @param RoleInterface $role
