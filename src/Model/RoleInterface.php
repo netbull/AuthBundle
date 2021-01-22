@@ -24,15 +24,15 @@ interface RoleInterface
     /**
      * @return RoleInterface|null
      */
-    public function getParent();
+    public function getParent(): ?RoleInterface;
 
     /**
-     * @return ArrayCollection
+     * @return ArrayCollection|UserInterface[]
      */
     public function getUsers();
 
     /**
-     * @param UserInterface[]|ArrayCollection $users
+     * @param ArrayCollection|UserInterface[] $users
      */
     public function setUsers($users);
 
@@ -44,12 +44,12 @@ interface RoleInterface
     /**
      * @return string|null
      */
-    public function getName();
+    public function getName(): ?string;
 
     /**
      * @return string|null
      */
-    public function getRole();
+    public function getRole(): ?string;
 
     /**
      * @param string $role
@@ -59,7 +59,7 @@ interface RoleInterface
     /**
      * @return string|null
      */
-    public function getGroup();
+    public function getGroup(): ?string;
 
     /**
      * @param string $group

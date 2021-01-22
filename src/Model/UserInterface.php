@@ -4,12 +4,13 @@ namespace NetBull\AuthBundle\Model;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface as BaseInterface;
 
 /**
  * Interface UserInterface
  * @package NetBull\AuthBundle\Model
  */
-interface UserInterface
+interface UserInterface extends BaseInterface
 {
     /**
      * @return int|null

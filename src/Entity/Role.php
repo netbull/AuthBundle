@@ -66,9 +66,9 @@ abstract class Role implements RoleInterface
 
     /**
      * @param RoleInterface|null $role
-     * @return Role
+     * @return RoleInterface
      */
-    public function setParent(?RoleInterface $role): Role
+    public function setParent(?RoleInterface $role): RoleInterface
     {
         $this->parent = $role;
 
@@ -85,9 +85,9 @@ abstract class Role implements RoleInterface
 
     /**
      * @param ArrayCollection|UserInterface[] $users
-     * @return Role
+     * @return RoleInterface
      */
-    public function setUsers($users)
+    public function setUsers($users): RoleInterface
     {
         $this->users = $users;
 
@@ -104,9 +104,9 @@ abstract class Role implements RoleInterface
 
     /**
      * @param string|null $name
-     * @return Role
+     * @return RoleInterface
      */
-    public function setName(?string $name): Role
+    public function setName(?string $name): RoleInterface
     {
         $this->name = $name;
 
@@ -123,9 +123,9 @@ abstract class Role implements RoleInterface
 
     /**
      * @param string|null $role
-     * @return Role
+     * @return RoleInterface
      */
-    public function setRole(?string $role): Role
+    public function setRole(?string $role): RoleInterface
     {
         $this->role = $role;
 
@@ -142,9 +142,9 @@ abstract class Role implements RoleInterface
 
     /**
      * @param string|null $group
-     * @return Role
+     * @return RoleInterface
      */
-    public function setGroup(?string $group): Role
+    public function setGroup(?string $group): RoleInterface
     {
         $this->group = $group;
 

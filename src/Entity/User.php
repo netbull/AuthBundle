@@ -5,13 +5,13 @@ namespace NetBull\AuthBundle\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use NetBull\AuthBundle\Model\UserInterface;
+use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 use Serializable;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use NetBull\AuthBundle\Model\RoleInterface;
-use NetBull\AuthBundle\Model\UserInterface as BaseInterface;
 
 /**
  * @UniqueEntity(fields="email", message="Sorry, this email address is already in use.", entityClass="NetBull\AuthBundle\Model\UserInterface")
@@ -19,7 +19,7 @@ use NetBull\AuthBundle\Model\UserInterface as BaseInterface;
  *
  * @ORM\MappedSuperclass(repositoryClass="NetBull\AuthBundle\Repository\UserRepository")
  */
-abstract class User implements BaseInterface, UserInterface, EquatableInterface, Serializable
+abstract class User implements UserInterface, EquatableInterface, Serializable
 {
     /**
      * @var string|null
@@ -130,9 +130,9 @@ abstract class User implements BaseInterface, UserInterface, EquatableInterface,
 
     /**
      * @param string|null $type
-     * @return User
+     * @return UserInterface
      */
-    public function setType(?string $type): User
+    public function setType(?string $type): UserInterface
     {
         $this->type = $type;
 
@@ -149,9 +149,9 @@ abstract class User implements BaseInterface, UserInterface, EquatableInterface,
 
     /**
      * @param string|null $username
-     * @return User
+     * @return UserInterface
      */
-    public function setUsername(?string $username): User
+    public function setUsername(?string $username): UserInterface
     {
         $this->username = $username;
 
@@ -168,9 +168,9 @@ abstract class User implements BaseInterface, UserInterface, EquatableInterface,
 
     /**
      * @param string|null $firstName
-     * @return User
+     * @return UserInterface
      */
-    public function setFirstName(?string $firstName): User
+    public function setFirstName(?string $firstName): UserInterface
     {
         $this->firstName = $firstName;
 
@@ -187,9 +187,9 @@ abstract class User implements BaseInterface, UserInterface, EquatableInterface,
 
     /**
      * @param string|null $lastName
-     * @return User
+     * @return UserInterface
      */
-    public function setLastName(?string $lastName): User
+    public function setLastName(?string $lastName): UserInterface
     {
         $this->lastName = $lastName;
 
@@ -206,9 +206,9 @@ abstract class User implements BaseInterface, UserInterface, EquatableInterface,
 
     /**
      * @param string|null $email
-     * @return User
+     * @return UserInterface
      */
-    public function setEmail(?string $email): User
+    public function setEmail(?string $email): UserInterface
     {
         $this->email = $email;
 
@@ -225,9 +225,9 @@ abstract class User implements BaseInterface, UserInterface, EquatableInterface,
 
     /**
      * @param string|null $password
-     * @return User
+     * @return UserInterface
      */
-    public function setPassword(?string $password): User
+    public function setPassword(?string $password): UserInterface
     {
         $this->password = $password;
 
@@ -244,9 +244,9 @@ abstract class User implements BaseInterface, UserInterface, EquatableInterface,
 
     /**
      * @param string|null $plainPassword
-     * @return User
+     * @return UserInterface
      */
-    public function setPlainPassword(?string $plainPassword): User
+    public function setPlainPassword(?string $plainPassword): UserInterface
     {
         $this->plainPassword = $plainPassword;
 
@@ -263,9 +263,9 @@ abstract class User implements BaseInterface, UserInterface, EquatableInterface,
 
     /**
      * @param string|null $salt
-     * @return User
+     * @return UserInterface
      */
-    public function setSalt(?string $salt): User
+    public function setSalt(?string $salt): UserInterface
     {
         $this->salt = $salt;
 
@@ -282,9 +282,9 @@ abstract class User implements BaseInterface, UserInterface, EquatableInterface,
 
     /**
      * @param DateTime|null $lastActive
-     * @return User
+     * @return UserInterface
      */
-    public function setLastActive(?DateTime $lastActive): User
+    public function setLastActive(?DateTime $lastActive): UserInterface
     {
         $this->lastActive = $lastActive;
 
@@ -301,9 +301,9 @@ abstract class User implements BaseInterface, UserInterface, EquatableInterface,
 
     /**
      * @param bool $active
-     * @return User
+     * @return UserInterface
      */
-    public function setActive(bool $active): User
+    public function setActive(bool $active): UserInterface
     {
         $this->active = $active;
 
@@ -320,9 +320,9 @@ abstract class User implements BaseInterface, UserInterface, EquatableInterface,
 
     /**
      * @param bool $forceLogout
-     * @return User
+     * @return UserInterface
      */
-    public function setForceLogout(bool $forceLogout): User
+    public function setForceLogout(bool $forceLogout): UserInterface
     {
         $this->forceLogout = $forceLogout;
 
@@ -339,9 +339,9 @@ abstract class User implements BaseInterface, UserInterface, EquatableInterface,
 
     /**
      * @param ArrayCollection|RoleInterface[] $roles
-     * @return User
+     * @return UserInterface
      */
-    public function setRawRoles($roles): User
+    public function setRawRoles($roles): UserInterface
     {
         $this->rawRoles = $roles;
 
@@ -350,9 +350,9 @@ abstract class User implements BaseInterface, UserInterface, EquatableInterface,
 
     /**
      * @param RoleInterface $role
-     * @return $this
+     * @return UserInterface
      */
-    public function addRawRole(RoleInterface $role): User
+    public function addRawRole(RoleInterface $role): UserInterface
     {
         if (!$this->rawRoles->contains($role)) {
             $this->rawRoles->add($role);
@@ -363,9 +363,9 @@ abstract class User implements BaseInterface, UserInterface, EquatableInterface,
 
     /**
      * @param RoleInterface $role
-     * @return $this
+     * @return UserInterface
      */
-    public function removeRawRole(RoleInterface $role): User
+    public function removeRawRole(RoleInterface $role): UserInterface
     {
         if ($this->rawRoles->contains($role)) {
             $this->rawRoles->removeElement($role);
@@ -405,10 +405,10 @@ abstract class User implements BaseInterface, UserInterface, EquatableInterface,
     }
 
     /**
-     * @param UserInterface $user
+     * @param BaseUserInterface $user
      * @return bool
      */
-    public function isEqualTo(UserInterface $user)
+    public function isEqualTo(BaseUserInterface $user)
     {
         if ($this->id !== $user->getId()) {
             return false;
