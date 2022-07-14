@@ -6,10 +6,6 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Role\RoleHierarchy as BaseRoleHierarchy;
 use NetBull\AuthBundle\Model\RoleInterface;
 
-/**
- * Class RoleHierarchy
- * @package NetBull\AuthBundle\Security
- */
 class RoleHierarchy extends BaseRoleHierarchy
 {
     /**
@@ -23,7 +19,6 @@ class RoleHierarchy extends BaseRoleHierarchy
     private $roles = [];
 
     /**
-     * RoleHierarchy constructor.
      * @param array $hierarchy
      * @param EntityManager $em
      */
@@ -36,7 +31,7 @@ class RoleHierarchy extends BaseRoleHierarchy
     /**
      * @return array
      */
-    public function getFlattenRoles()
+    public function getFlattenRoles(): array
     {
         foreach ($this->map as $role => $group) {
             $this->roles[] = $role;
@@ -68,7 +63,7 @@ class RoleHierarchy extends BaseRoleHierarchy
      * like original Symfony roles are stored in security.yaml
      * @return array
      */
-    private function buildRolesTree()
+    private function buildRolesTree(): array
     {
         $hierarchy = [];
         $roles = $this->em->createQuery('SELECT r FROM NetBullAuthBundle:Role r')->execute();

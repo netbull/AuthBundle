@@ -4,10 +4,6 @@ namespace NetBull\AuthBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-/**
- * Interface RoleInterface
- * @package NetBull\AuthBundle\Model
- */
 interface RoleInterface
 {
     /**

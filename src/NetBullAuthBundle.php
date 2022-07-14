@@ -6,10 +6,6 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use NetBull\AuthBundle\DependencyInjection\NetBullAuthExtension;
 
-/**
- * Class NetBullAuthBundle
- * @package NetBull\AuthBundle
- */
 class NetBullAuthBundle extends Bundle
 {
     /**

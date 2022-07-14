@@ -6,10 +6,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * Class AccessDeniedActivationStrategy
- * @package NetBull\AuthBundle\Security
- */
 class AccessDeniedActivationStrategy extends ErrorLevelActivationStrategy
 {
     /**
@@ -18,13 +14,11 @@ class AccessDeniedActivationStrategy extends ErrorLevelActivationStrategy
     private $requestStack;
 
     /**
-     * AccessDeniedActivationStrategy constructor.
      * @param RequestStack $requestStack
      */
     public function __construct(RequestStack $requestStack)
     {
         parent::__construct('critical');
-
         $this->requestStack = $requestStack;
     }
 
@@ -40,7 +34,7 @@ class AccessDeniedActivationStrategy extends ErrorLevelActivationStrategy
             $isActivated
             && isset($record['context']['exception'])
             && $record['context']['exception'] instanceof AccessDeniedException
-            && $this->requestStack->getMasterRequest()
+            && $this->requestStack->getMainRequest()
         ) {
             return false;
         }

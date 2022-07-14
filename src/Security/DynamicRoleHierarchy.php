@@ -8,10 +8,6 @@ use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use NetBull\AuthBundle\Model\RoleInterface;
 use NetBull\AuthBundle\Repository\RoleRepository;
 
-/**
- * Class DynamicRoleHierarchy
- * @package NetBull\AuthBundle\Security
- */
 class DynamicRoleHierarchy implements RoleHierarchyInterface
 {
     /**
@@ -25,7 +21,6 @@ class DynamicRoleHierarchy implements RoleHierarchyInterface
     protected $roleHierarchy = null;
 
     /**
-     * DynamicRoleHierarchy constructor.
      * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
@@ -34,7 +29,8 @@ class DynamicRoleHierarchy implements RoleHierarchyInterface
     }
 
     /**
-     * @inheritdoc
+     * @param array $roles
+     * @return array|string[]
      */
     public function getReachableRoleNames(array $roles): array
     {
@@ -48,7 +44,7 @@ class DynamicRoleHierarchy implements RoleHierarchyInterface
     /**
      * @return array
      */
-    protected function fetchRoleHierarchy()
+    protected function fetchRoleHierarchy(): array
     {
         $hierarchy = [];
 

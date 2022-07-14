@@ -4,16 +4,12 @@ namespace NetBull\AuthBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-/**
- * Class RoleRepository
- * @package NetBull\AuthBundle\Repository
- */
 class RoleRepository extends EntityRepository
 {
     /**
      * @return array
      */
-    public function getAll()
+    public function getAll(): array
     {
         $qb = $this->createQueryBuilder('r');
 

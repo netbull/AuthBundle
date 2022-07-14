@@ -6,10 +6,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface as BaseInterface;
 
-/**
- * Interface UserInterface
- * @package NetBull\AuthBundle\Model
- */
 interface UserInterface extends BaseInterface
 {
     /**
@@ -152,10 +148,10 @@ interface UserInterface extends BaseInterface
     public function serialize();
 
     /**
+     * @param string $data
      * @see \Serializable::unserialize()
-     * @param string $serialized
      */
-    public function unserialize($serialized);
+    public function unserialize($data);
 
     /**
      * Get the name of the User

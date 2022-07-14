@@ -48,9 +48,6 @@ abstract class Role implements RoleInterface
      */
     protected $group;
 
-    /**
-     * Role constructor.
-     */
     public function __construct()
     {
         $this->users = new ArrayCollection();

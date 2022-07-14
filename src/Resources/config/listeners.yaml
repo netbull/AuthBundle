@@ -1,6 +1,6 @@
 services:
     netbull_auth.security.forced_logout_listener:
-        class: NetBull\AuthBundle\Security\ForcedLogoutListener
+        class: NetBull\AuthBundle\EventListener\ForcedLogoutListener
         arguments:
             - '@security.token_storage'
             - '@security.authorization_checker'

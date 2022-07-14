@@ -1,23 +1,20 @@
 <?php
 
-namespace NetBull\AuthBundle\Security;
+namespace NetBull\AuthBundle\EventListener;
 
 use Doctrine\ORM\EntityManagerInterface;
 use NetBull\AuthBundle\Exception\NoLoginRouteException;
+use NetBull\AuthBundle\Model\UserInterface;
+use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
-use NetBull\AuthBundle\Model\UserInterface;
 
-/**
- * Class ForcedLogoutListener
- * @package NetBull\AuthBundle\Security
- */
 class ForcedLogoutListener
 {
     /**
@@ -31,9 +28,9 @@ class ForcedLogoutListener
     protected $authChecker;
 
     /**
-     * @var SessionInterface
+     * @var RequestStack
      */
-    protected $session;
+    protected $requestStack;
 
     /**
      * @var RouterInterface
@@ -61,10 +58,9 @@ class ForcedLogoutListener
     protected $loginRoute;
 
     /**
-     * ForcedLogoutListener constructor.
      * @param TokenStorageInterface $tokenStorage
      * @param AuthorizationCheckerInterface $authChecker
-     * @param SessionInterface $session
+     * @param RequestStack $requestStack
      * @param RouterInterface $router
      * @param EntityManagerInterface $em
      * @param string $sessionName
@@ -74,7 +70,7 @@ class ForcedLogoutListener
     public function __construct(
         TokenStorageInterface $tokenStorage,
         AuthorizationCheckerInterface $authChecker,
-        SessionInterface $session,
+        RequestStack $requestStack,
         RouterInterface $router,
         EntityManagerInterface $em,
         string $sessionName,
@@ -84,7 +80,7 @@ class ForcedLogoutListener
     {
         $this->tokenStorage = $tokenStorage;
         $this->authChecker = $authChecker;
-        $this->session = $session;
+        $this->requestStack = $requestStack;
         $this->router = $router;
         $this->em = $em;
         $this->sessionName = $sessionName;
@@ -98,7 +94,7 @@ class ForcedLogoutListener
      */
     public function onKernelRequest(RequestEvent $event)
     {
-        if (!$event->isMasterRequest() || !$this->isUserLoggedIn()) {
+        if (!$event->isMainRequest() || !$this->isUserLoggedIn()) {
             return;
         }
 
@@ -130,7 +126,7 @@ class ForcedLogoutListener
     /**
      * @return bool
      */
-    protected function isUserLoggedIn()
+    protected function isUserLoggedIn(): bool
     {
         try {
             return $this->authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED');
@@ -145,27 +141,29 @@ class ForcedLogoutListener
      *
      * @return RedirectResponse
      */
-    protected function getRedirectResponse($routeName)
+    protected function getRedirectResponse(string $routeName): RedirectResponse
     {
-        return new RedirectResponse(
-            $this->router->generate($routeName)
-        );
+        return new RedirectResponse($this->router->generate($routeName));
     }
 
     /**
-     * @param Response $response
+     * @param Response|null $response
      */
     protected function logUserOut(Response $response = null)
     {
         // Logging user out.
-        $this->tokenStorage->setToken(null);
+        $this->tokenStorage->setToken();
 
         // Invalidating the session.
-        $this->session->invalidate();
+        try {
+            $session = $this->requestStack->getSession();
+            $session->invalidate();
+        } catch (SessionNotFoundException $e) {
+        }
 
         // Clearing the cookies.
         if (null !== $response) {
-            foreach ([ $this->sessionName, $this->rememberMeSessionName ] as $cookieName) {
+            foreach ([$this->sessionName, $this->rememberMeSessionName] as $cookieName) {
                 $response->headers->clearCookie($cookieName);
             }
         }

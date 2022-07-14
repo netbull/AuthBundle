@@ -2,20 +2,18 @@
 
 namespace NetBull\AuthBundle\DependencyInjection;
 
+use Exception;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-/**
- * Class NetBullAuthExtension
- * @package NetBull\AuthBundle\DependencyInjection
- */
 class NetBullAuthExtension extends Extension
 {
     /**
-     * {@inheritdoc}
-     * @throws \Exception
+     * @param array $configs
+     * @param ContainerBuilder $container
+     * @throws Exception
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -38,7 +36,7 @@ class NetBullAuthExtension extends Extension
     /**
      * @return string
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'netbull_auth';
     }

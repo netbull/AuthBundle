@@ -1,19 +1,14 @@
 <?php
 
-namespace NetBull\AuthBundle\Security;
+namespace NetBull\AuthBundle\EventListener;
 
-use Doctrine\ORM\ORMException;
+use NetBull\AuthBundle\Model\UserInterface;
+use NetBull\AuthBundle\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use NetBull\AuthBundle\Repository\UserRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener as BaseClass;
-use NetBull\AuthBundle\Model\UserInterface;
 
-/**
- * Class UsernamePasswordFormAuthenticationListener
- * @package NetBull\AuthBundle\Security
- */
 class UsernamePasswordFormAuthenticationListener extends BaseClass
 {
     /**
@@ -32,7 +27,6 @@ class UsernamePasswordFormAuthenticationListener extends BaseClass
     /**
      * @param Request $request
      * @return null|Response|TokenInterface
-     * @throws ORMException
      */
     protected function attemptAuthentication(Request $request)
     {

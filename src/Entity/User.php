@@ -112,9 +112,6 @@ abstract class User implements UserInterface, EquatableInterface, Serializable
      */
     protected $rawRoles;
 
-    /**
-     * User constructor.
-     */
     public function __construct()
     {
         $this->rawRoles = new ArrayCollection();
@@ -377,7 +374,6 @@ abstract class User implements UserInterface, EquatableInterface, Serializable
     ######################################################
     #                   Helper Methods                   #
     ######################################################
-
     /**
      * @inheritdoc
      */
@@ -390,9 +386,9 @@ abstract class User implements UserInterface, EquatableInterface, Serializable
     }
 
     /**
-     * @inheritdoc
+     * @return array|string[]
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         return $this->rawRoles->map(function (Role $role) {
             return $role->getRole();
@@ -408,9 +404,9 @@ abstract class User implements UserInterface, EquatableInterface, Serializable
      * @param BaseUserInterface $user
      * @return bool
      */
-    public function isEqualTo(BaseUserInterface $user)
+    public function isEqualTo(BaseUserInterface $user): bool
     {
-        if ($this->id !== $user->getId()) {
+        if ($this->getId() !== $user->getId()) {
             return false;
         }
 
@@ -418,11 +414,11 @@ abstract class User implements UserInterface, EquatableInterface, Serializable
             return false;
         }
 
-        if ($this->salt !== $user->getSalt()) {
+        if ($this->getSalt() !== $user->getSalt()) {
             return false;
         }
 
-        if ($this->email !== $user->getEmail()) {
+        if ($this->getEmail() !== $user->getEmail()) {
             return false;
         }
 
@@ -432,7 +428,7 @@ abstract class User implements UserInterface, EquatableInterface, Serializable
     /**
      * @see \Serializable::serialize()
      */
-    public function serialize()
+    public function serialize(): ?string
     {
         return serialize([
             $this->id,
@@ -443,17 +439,16 @@ abstract class User implements UserInterface, EquatableInterface, Serializable
     }
 
     /**
-     * @see \Serializable::unserialize()
-     * @param string $serialized
+     * @param string $data
      */
-    public function unserialize($serialized)
+    public function unserialize($data)
     {
         list (
             $this->id,
             $this->password,
             $this->salt,
             $this->email,
-        ) = unserialize($serialized);
+        ) = unserialize($data);
     }
 
     /**
