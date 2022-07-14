@@ -197,7 +197,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface, Pa
      * @param UserInterface $user
      * @param string $newHashedPassword
      */
-    public function upgradePassword(UserInterface $user, string $newHashedPassword)
+    public function upgradePassword(UserInterface $user, string $newHashedPassword): void
     {
         $em = $this->getEntityManager();
         $user->setPassword($newHashedPassword);
