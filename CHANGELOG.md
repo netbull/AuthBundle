@@ -1,3 +1,10 @@
+## [5.4.3](https://github.com/netbull/AuthBundle/compare/v5.4.2...v5.4.3) (2022-07-14)
+
+
+### Bug Fixes
+
+* cleaned deprecations ([a347e72](https://github.com/netbull/AuthBundle/commit/a347e7247cd1aedc33e6428249af0daaf046f03d))
+
 ## [5.4.2](https://github.com/netbull/AuthBundle/compare/v5.4.1...v5.4.2) (2022-07-14)
 
 
