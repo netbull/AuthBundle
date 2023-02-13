@@ -1,3 +1,10 @@
+## [5.4.5](https://github.com/netbull/AuthBundle/compare/v5.4.4...v5.4.5) (2023-02-13)
+
+
+### Bug Fixes
+
+* added getUserIdentifier ([caeeb02](https://github.com/netbull/AuthBundle/commit/caeeb024fb2a706025ff1943d2d58bbf32be6525))
+
 ## [5.4.4](https://github.com/netbull/AuthBundle/compare/v5.4.3...v5.4.4) (2022-07-14)
 
 
