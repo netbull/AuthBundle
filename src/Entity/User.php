@@ -375,6 +375,14 @@ abstract class User implements UserInterface, EquatableInterface, Serializable
     #                   Helper Methods                   #
     ######################################################
     /**
+    * @return string
+    */
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+    
+    /**
      * @inheritdoc
      */
     public function isActiveNow(): bool
