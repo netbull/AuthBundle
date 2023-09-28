@@ -9,9 +9,9 @@ use NetBull\AuthBundle\DependencyInjection\NetBullAuthExtension;
 class NetBullAuthBundle extends Bundle
 {
     /**
-     * @return NetBullAuthExtension|null|ExtensionInterface
+     * @return ExtensionInterface|null
      */
-    public function getContainerExtension()
+    public function getContainerExtension(): ?ExtensionInterface
     {
         return new NetBullAuthExtension;
     }
