@@ -1,3 +1,10 @@
+## [6.0.1](https://github.com/netbull/AuthBundle/compare/v6.0.0...v6.0.1) (2023-09-28)
+
+
+### Performance Improvements
+
+* **pencil:** bump versions ([5cd05f7](https://github.com/netbull/AuthBundle/commit/5cd05f7e78a838674a2bb6b188564e49467e5d9f))
+
 # [6.0.0](https://github.com/netbull/AuthBundle/compare/v5.4.5...v6.0.0) (2023-09-28)
 
 
