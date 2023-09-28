@@ -1,3 +1,15 @@
+# [6.0.0](https://github.com/netbull/AuthBundle/compare/v5.4.5...v6.0.0) (2023-09-28)
+
+
+### Performance Improvements
+
+* **pencil:** bump versions ([432dfae](https://github.com/netbull/AuthBundle/commit/432dfaea9d6a29908fb803bb429f5d6cd622f43a))
+
+
+### BREAKING CHANGES
+
+* **pencil:** bump to Symfony 6.3
+
 ## [5.4.5](https://github.com/netbull/AuthBundle/compare/v5.4.4...v5.4.5) (2023-02-13)
 
 
