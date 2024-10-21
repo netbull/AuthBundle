@@ -1,3 +1,10 @@
+# [6.1.0](https://github.com/netbull/AuthBundle/compare/v6.0.1...v6.1.0) (2024-10-21)
+
+
+### Features
+
+* bump symfony versions ([c936031](https://github.com/netbull/AuthBundle/commit/c9360313d8a16baed8c310a4d1604b56d9921b80))
+
 ## [6.0.1](https://github.com/netbull/AuthBundle/compare/v6.0.0...v6.0.1) (2023-09-28)
 
 
