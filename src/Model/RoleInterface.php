@@ -2,7 +2,7 @@
 
 namespace NetBull\AuthBundle\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 interface RoleInterface
 {
@@ -15,7 +15,7 @@ interface RoleInterface
      * @param RoleInterface $role
      * @return mixed
      */
-    public function setParent(RoleInterface $role);
+    public function setParent(RoleInterface $role): mixed;
 
     /**
      * @return RoleInterface|null
@@ -23,14 +23,14 @@ interface RoleInterface
     public function getParent(): ?RoleInterface;
 
     /**
-     * @return ArrayCollection|UserInterface[]
+     * @return Collection<UserInterface>
      */
-    public function getUsers();
+    public function getUsers(): Collection;
 
     /**
-     * @param ArrayCollection|UserInterface[] $users
+     * @param Collection<UserInterface> $users
      */
-    public function setUsers($users);
+    public function setUsers(Collection $users);
 
     /**
      * @param string $name

@@ -2,51 +2,46 @@
 
 namespace NetBull\AuthBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use NetBull\AuthBundle\Model\RoleInterface;
 use NetBull\AuthBundle\Model\UserInterface;
+use NetBull\AuthBundle\Repository\RoleRepository;
 
-/**
- * @ORM\MappedSuperclass(repositoryClass="NetBull\AuthBundle\Repository\RoleRepository")
- */
+#[ORM\MappedSuperclass(repositoryClass: RoleRepository::class)]
 abstract class Role implements RoleInterface
 {
     /**
      * @var RoleInterface|null
-     *
-     * @ORM\ManyToOne(targetEntity="NetBull\AuthBundle\Model\RoleInterface")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      **/
-    protected $parent;
+    #[ORM\ManyToOne(targetEntity: RoleInterface::class)]
+    #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    protected ?RoleInterface $parent  = null;
 
     /**
-     * @var UserInterface[]|ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="NetBull\AuthBundle\Model\UserInterface", mappedBy="rawRoles")
+     * @var Collection<UserInterface>
      */
-    protected $users;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(length=30)
-     */
-    protected $name;
+    #[ORM\ManyToMany(targetEntity: UserInterface::class, inversedBy: 'rawRoles')]
+    protected Collection $users;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(length=50, unique=true)
      */
-    protected $role;
+    #[ORM\Column(length: 30)]
+    protected ?string $name;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(name="group_name", length=30)
      */
-    protected $group;
+    #[ORM\Column(length: 50, unique: true)]
+    protected ?string $role = null;
+
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'group_name', length: 30)]
+    protected ?string $group = null;
 
     public function __construct()
     {
@@ -73,18 +68,18 @@ abstract class Role implements RoleInterface
     }
 
     /**
-     * @return ArrayCollection|UserInterface[]
+     * @return Collection<UserInterface>
      */
-    public function getUsers()
+    public function getUsers(): Collection
     {
         return $this->users;
     }
 
     /**
-     * @param ArrayCollection|UserInterface[] $users
+     * @param Collection<UserInterface> $users
      * @return RoleInterface
      */
-    public function setUsers($users): RoleInterface
+    public function setUsers(Collection $users): RoleInterface
     {
         $this->users = $users;
 

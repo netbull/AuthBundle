@@ -3,9 +3,13 @@
 namespace NetBull\AuthBundle\Entity;
 
 use DateTime;
+use DateTimeInterface;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use NetBull\AuthBundle\Model\UserInterface;
+use NetBull\AuthBundle\Repository\UserRepository;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 use Serializable;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,104 +17,87 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use NetBull\AuthBundle\Model\RoleInterface;
 
-/**
- * @UniqueEntity(fields="email", message="Sorry, this email address is already in use.", entityClass="NetBull\AuthBundle\Model\UserInterface")
- * @UniqueEntity(fields="username", message="Sorry, this username is already in use.", entityClass="NetBull\AuthBundle\Model\UserInterface")
- *
- * @ORM\MappedSuperclass(repositoryClass="NetBull\AuthBundle\Repository\UserRepository")
- */
-abstract class User implements UserInterface, EquatableInterface, Serializable
+#[UniqueEntity(fields: 'email', message: 'Sorry, this email address is already in use.', entityClass: UserInterface::class)]
+#[UniqueEntity(fields: 'username', message: 'Sorry, this username is already in use.', entityClass: UserInterface::class)]
+#[ORM\MappedSuperclass(repositoryClass: UserRepository::class)]
+abstract class User implements UserInterface, EquatableInterface, Serializable, PasswordAuthenticatedUserInterface
 {
     /**
      * @var string|null
-     *
-     * @ORM\Column(length=30)
      */
-    protected $type;
+    #[ORM\Column(length: 30)]
+    protected ?string $type = null;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(length=100, nullable=true)
      */
-    protected $username;
+    #[ORM\Column(length: 100, nullable: true)]
+    protected ?string $username = null;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(length=80, nullable=true)
      */
-    protected $firstName;
+    #[ORM\Column(length: 80, nullable: true)]
+    protected ?string $firstName = null;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(length=80, nullable=true)
      */
-    protected $lastName;
+    #[ORM\Column(length: 80, nullable: true)]
+    protected ?string $lastName = null;
 
     /**
      * @var string|null
-     *
-     * @Assert\NotBlank(message="Please enter a valid email address.")
-     * @Assert\Email(message="The provided Email is not valid.")
-     *
-     * @ORM\Column
      */
-    protected $email;
+    #[Assert\NotBlank(message: 'Please enter a valid email address.')]
+    #[Assert\Email(message: 'The provided Email is not valid.')]
+    #[ORM\Column]
+    protected ?string $email = null;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column
      */
-    protected $password;
+    #[ORM\Column]
+    protected ?string $password = null;
 
     /**
      * @var string|null
-     *
-     * @Assert\Length(max=4096)
      */
-    protected $plainPassword;
+    #[Assert\Length(max: 4096)]
+    protected ?string $plainPassword = null;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(nullable=true)
      */
-    protected $salt;
+    #[ORM\Column(nullable: true)]
+    protected ?string $salt = null;
 
     /**
      * @var DateTime|null
-     *
-     * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $lastActive;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    protected ?DateTimeInterface $lastActive = null;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
-    protected $active = false;
+    #[ORM\Column(type: 'boolean')]
+    protected bool $active = false;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
-    protected $forceLogout = false;
+    #[ORM\Column(type: 'boolean')]
+    protected bool $forceLogout = false;
 
     /**
-     * @var RoleInterface[]|ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="NetBull\AuthBundle\Model\RoleInterface", inversedBy="users")
-     * @ORM\JoinTable(name="user_role",
-     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id", onDelete="CASCADE")}
-     *  )
+     * @var Collection<RoleInterface>
      */
-    protected $rawRoles;
+    #[ORM\ManyToMany(targetEntity: RoleInterface::class, inversedBy: 'users')]
+    #[ORM\JoinTable(name: 'user_role')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'role_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    protected Collection $rawRoles;
 
     public function __construct()
     {
@@ -270,18 +257,18 @@ abstract class User implements UserInterface, EquatableInterface, Serializable
     }
 
     /**
-     * @return DateTime|null
+     * @return DateTimeInterface|null
      */
-    public function getLastActive(): ?DateTime
+    public function getLastActive(): ?DateTimeInterface
     {
         return $this->lastActive;
     }
 
     /**
-     * @param DateTime|null $lastActive
+     * @param DateTimeInterface|null $lastActive
      * @return UserInterface
      */
-    public function setLastActive(?DateTime $lastActive): UserInterface
+    public function setLastActive(?DateTimeInterface $lastActive): UserInterface
     {
         $this->lastActive = $lastActive;
 
@@ -327,18 +314,18 @@ abstract class User implements UserInterface, EquatableInterface, Serializable
     }
 
     /**
-     * @return ArrayCollection|RoleInterface[]
+     * @return Collection<RoleInterface>
      */
-    public function getRawRoles()
+    public function getRawRoles(): Collection
     {
         return $this->rawRoles;
     }
 
     /**
-     * @param ArrayCollection|RoleInterface[] $roles
+     * @param Collection<RoleInterface> $roles
      * @return UserInterface
      */
-    public function setRawRoles($roles): UserInterface
+    public function setRawRoles(Collection $roles): UserInterface
     {
         $this->rawRoles = $roles;
 
@@ -381,7 +368,7 @@ abstract class User implements UserInterface, EquatableInterface, Serializable
     {
         return $this->email;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -394,7 +381,7 @@ abstract class User implements UserInterface, EquatableInterface, Serializable
     }
 
     /**
-     * @return array|string[]
+     * @return string[]
      */
     public function getRoles(): array
     {
@@ -403,7 +390,7 @@ abstract class User implements UserInterface, EquatableInterface, Serializable
         })->toArray();
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         $this->plainPassword = null;
     }
@@ -449,7 +436,7 @@ abstract class User implements UserInterface, EquatableInterface, Serializable
     /**
      * @param string $data
      */
-    public function unserialize($data)
+    public function unserialize(string $data): void
     {
         list (
             $this->id,

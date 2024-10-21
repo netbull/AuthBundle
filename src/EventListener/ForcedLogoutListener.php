@@ -20,42 +20,42 @@ class ForcedLogoutListener
     /**
      * @var TokenStorageInterface
      */
-    protected $tokenStorage;
+    protected TokenStorageInterface $tokenStorage;
 
     /**
      * @var AuthorizationCheckerInterface
      */
-    protected $authChecker;
+    protected AuthorizationCheckerInterface $authChecker;
 
     /**
      * @var RequestStack
      */
-    protected $requestStack;
+    protected RequestStack $requestStack;
 
     /**
      * @var RouterInterface
      */
-    protected $router;
+    protected RouterInterface $router;
 
     /**
      * @var EntityManagerInterface
      */
-    protected $em;
+    protected EntityManagerInterface $em;
 
     /**
      * @var string
      */
-    protected $sessionName;
+    protected string $sessionName;
 
     /**
      * @var string
      */
-    protected $rememberMeSessionName;
+    protected string $rememberMeSessionName;
 
     /**
      * @var string
      */
-    protected $loginRoute;
+    protected string $loginRoute;
 
     /**
      * @param TokenStorageInterface $tokenStorage
@@ -92,7 +92,7 @@ class ForcedLogoutListener
      * @param RequestEvent $event
      * @throws NoLoginRouteException
      */
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         if (!$event->isMainRequest() || !$this->isUserLoggedIn()) {
             return;
@@ -149,7 +149,7 @@ class ForcedLogoutListener
     /**
      * @param Response|null $response
      */
-    protected function logUserOut(Response $response = null)
+    protected function logUserOut(Response $response = null): void
     {
         // Logging user out.
         $this->tokenStorage->setToken();

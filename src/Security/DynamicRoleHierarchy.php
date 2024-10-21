@@ -13,12 +13,12 @@ class DynamicRoleHierarchy implements RoleHierarchyInterface
     /**
      * @var RoleRepository $roleRepository
      */
-    protected $roleRepository;
+    protected RoleRepository $roleRepository;
 
     /**
-     * @var null
+     * @var RoleHierarchy|null
      */
-    protected $roleHierarchy = null;
+    protected ?RoleHierarchy $roleHierarchy = null;
 
     /**
      * @param EntityManagerInterface $em

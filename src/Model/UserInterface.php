@@ -2,8 +2,8 @@
 
 namespace NetBull\AuthBundle\Model;
 
-use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
+use DateTimeInterface;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\UserInterface as BaseInterface;
 
 interface UserInterface extends BaseInterface
@@ -84,14 +84,14 @@ interface UserInterface extends BaseInterface
     public function setSalt(?string $salt);
 
     /**
-     * @return DateTime|null
+     * @return DateTimeInterface|null
      */
-    public function getLastActive(): ?DateTime;
+    public function getLastActive(): ?DateTimeInterface;
 
     /**
-     * @param DateTime $lastActive
+     * @param DateTimeInterface $lastActive
      */
-    public function setLastActive(DateTime $lastActive);
+    public function setLastActive(DateTimeInterface $lastActive);
 
     /**
      * @return bool
@@ -119,14 +119,14 @@ interface UserInterface extends BaseInterface
     public function setForceLogout(bool $forceLogout);
 
     /**
-     * @return ArrayCollection|RoleInterface[]
+     * @return Collection<RoleInterface>
      */
-    public function getRawRoles();
+    public function getRawRoles(): Collection;
 
     /**
-     * @param $roles
+     * @param Collection $roles
      */
-    public function setRawRoles($roles);
+    public function setRawRoles(Collection $roles);
 
     /**
      * @param RoleInterface $role
@@ -151,7 +151,7 @@ interface UserInterface extends BaseInterface
      * @param string $data
      * @see \Serializable::unserialize()
      */
-    public function unserialize($data);
+    public function unserialize(string $data);
 
     /**
      * Get the name of the User

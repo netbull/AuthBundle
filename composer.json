@@ -10,6 +10,7 @@
     ],
     "license": "AGPL-3.0-or-later",
     "require": {
+        "php": "8.*",
         "symfony/framework-bundle": "6.4.*",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/orm": "^2.12",

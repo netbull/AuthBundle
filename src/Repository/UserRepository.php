@@ -11,9 +11,9 @@ use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use NetBull\AuthBundle\Model\UserInterface;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 class UserRepository extends EntityRepository implements UserLoaderInterface, PasswordUpgraderInterface
@@ -21,7 +21,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface, Pa
     /**
      * @param UserInterface $user
      */
-    public function save(UserInterface $user)
+    public function save(UserInterface $user): void
     {
         $this->_em->persist($user);
         $this->_em->flush();
@@ -45,7 +45,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface, Pa
                 'Unable to find an active account AuthBundle:User object identified by "%s".',
                 $username
             );
-            throw new UsernameNotFoundException($message, 0, $e);
+            throw new UserNotFoundException($message, 0, $e);
         }
     }
 
@@ -77,9 +77,9 @@ class UserRepository extends EntityRepository implements UserLoaderInterface, Pa
 
     /**
      * @param UserInterface $user
-     * @return float|int|mixed|string|null
+     * @return UserInterface|null
      */
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): ?UserInterface
     {
         $class = get_class($user);
         if (!$this->supportsClass($class)) {
@@ -137,7 +137,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface, Pa
      * Update Last active of the users
      * @param $ids
      */
-    public function updateLastActive($ids)
+    public function updateLastActive($ids): void
     {
         if (!is_array($ids)) {
             $ids = [$ids];
@@ -194,10 +194,11 @@ class UserRepository extends EntityRepository implements UserLoaderInterface, Pa
     }
 
     /**
-     * @param UserInterface $user
+     * @param PasswordAuthenticatedUserInterface $user
      * @param string $newHashedPassword
+     * @return void
      */
-    public function upgradePassword(UserInterface $user, string $newHashedPassword): void
+    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
         $em = $this->getEntityManager();
         $user->setPassword($newHashedPassword);

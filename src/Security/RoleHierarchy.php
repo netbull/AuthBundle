@@ -3,26 +3,27 @@
 namespace NetBull\AuthBundle\Security;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Role\RoleHierarchy as BaseRoleHierarchy;
 use NetBull\AuthBundle\Model\RoleInterface;
 
 class RoleHierarchy extends BaseRoleHierarchy
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $em;
 
     /**
      * @var array
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @param array $hierarchy
-     * @param EntityManager $em
+     * @param EntityManagerInterface $em
      */
-    public function __construct(array $hierarchy, EntityManager $em)
+    public function __construct(array $hierarchy, EntityManagerInterface $em)
     {
         $this->em = $em;
         parent::__construct($this->buildRolesTree());
@@ -47,7 +48,7 @@ class RoleHierarchy extends BaseRoleHierarchy
     /**
      * @param $groupRoles
      */
-    private function recursiveRoles($groupRoles)
+    private function recursiveRoles($groupRoles): void
     {
         foreach ($groupRoles as $role => $group) {
             if (is_array($group)) {

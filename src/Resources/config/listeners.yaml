@@ -15,19 +15,3 @@ services:
                 event: kernel.request
                 method: onKernelRequest
                 priority: 0
-
-    netbull_auth.user_repository:
-        class: Doctrine\ORM\EntityRepository
-        factory: ['@doctrine.orm.default_entity_manager', getRepository]
-        arguments: [ 'NetBull\AuthBundle\Entity\User' ]
-
-    # Overriding Symfony's default login listener
-    security.authentication.listener.form:
-        class: NetBull\AuthBundle\Security\UsernamePasswordFormAuthenticationListener
-        parent: security.authentication.listener.abstract
-        abstract: true
-        autowire: true
-        autoconfigure: false
-        public: false
-        calls:
-            - [setUserRepository, ['@netbull_auth.user_repository']]
