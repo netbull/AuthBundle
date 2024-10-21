@@ -1,3 +1,10 @@
+# [6.4.0](https://github.com/netbull/AuthBundle/compare/v6.3.0...v6.4.0) (2024-10-21)
+
+
+### Features
+
+* adjusted to php 8.* ([a12a8e7](https://github.com/netbull/AuthBundle/commit/a12a8e717995da0dcc73f5369cc9908c169a1444))
+
 ## [6.1.3](https://github.com/netbull/AuthBundle/compare/v6.1.2...v6.1.3) (2024-10-21)
 
 
