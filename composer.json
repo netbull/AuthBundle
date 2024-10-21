@@ -10,11 +10,11 @@
     ],
     "license": "AGPL-3.0-or-later",
     "require": {
-        "symfony/framework-bundle": "6.3.*",
+        "symfony/framework-bundle": "6.4.*",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/orm": "^2.12",
-        "symfony/security-bundle": "6.3.*",
-        "symfony/validator": "6.3.*",
+        "symfony/security-bundle": "6.4.*",
+        "symfony/validator": "6.4.*",
         "monolog/monolog": "^2.7"
     },
     "autoload": {
