@@ -1,3 +1,10 @@
+## [6.1.2](https://github.com/netbull/AuthBundle/compare/v6.1.1...v6.1.2) (2024-10-21)
+
+
+### Bug Fixes
+
+* Update AccessDeniedActivationStrategy.php ([8fbe88c](https://github.com/netbull/AuthBundle/commit/8fbe88cfcf9eb8b4584096c4cbf6ba7cc1a8cc43))
+
 ## [6.1.1](https://github.com/netbull/AuthBundle/compare/v6.1.0...v6.1.1) (2024-10-21)
 
 
