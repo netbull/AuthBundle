@@ -1,3 +1,10 @@
+## [6.1.1](https://github.com/netbull/AuthBundle/compare/v6.1.0...v6.1.1) (2024-10-21)
+
+
+### Bug Fixes
+
+* bump monolog version ([8ed0fe1](https://github.com/netbull/AuthBundle/commit/8ed0fe158831224a486a339cba8990da6c0161ad))
+
 # [6.1.0](https://github.com/netbull/AuthBundle/compare/v6.0.1...v6.1.0) (2024-10-21)
 
 
