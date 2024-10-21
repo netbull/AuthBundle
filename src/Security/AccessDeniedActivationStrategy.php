@@ -26,7 +26,7 @@ class AccessDeniedActivationStrategy extends ErrorLevelActivationStrategy
      * @param array $record
      * @return bool
      */
-    public function isHandlerActivated(Monolog\LogRecord $record): bool
+    public function isHandlerActivated(\Monolog\LogRecord $record): bool
     {
         $isActivated = parent::isHandlerActivated($record);
 
