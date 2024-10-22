@@ -421,29 +421,41 @@ abstract class User implements UserInterface, EquatableInterface, Serializable, 
     }
 
     /**
-     * @see \Serializable::serialize()
+     * @return array
      */
-    public function serialize(): ?string
+    public function __serialize(): array
     {
-        return serialize([
+        return [
             $this->id,
             $this->password,
             $this->salt,
             $this->email,
-        ]);
+        ];
     }
 
     /**
-     * @param string $data
+     * @internal
      */
-    public function unserialize(string $data): void
+    final public function serialize(): string
     {
-        list (
-            $this->id,
-            $this->password,
-            $this->salt,
-            $this->email,
-        ) = unserialize($data);
+        return serialize($this->__serialize());
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function __unserialize(array $data): void
+    {
+        [$this->id, $this->password, $this->salt, $this->email] = $data;
+    }
+
+    /**
+     * @internal
+     */
+    final public function unserialize(string $serialized): void
+    {
+        $this->__unserialize(unserialize($serialized));
     }
 
     /**
