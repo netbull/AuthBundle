@@ -22,7 +22,7 @@ abstract class Role implements RoleInterface
     /**
      * @var Collection<UserInterface>
      */
-    #[ORM\ManyToMany(targetEntity: UserInterface::class, inversedBy: 'rawRoles')]
+    #[ORM\ManyToMany(targetEntity: UserInterface::class, mappedBy: 'rawRoles')]
     protected Collection $users;
 
     /**
