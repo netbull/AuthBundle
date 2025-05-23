@@ -23,8 +23,8 @@ class UserRepository extends EntityRepository implements UserLoaderInterface, Pa
      */
     public function save(UserInterface $user): void
     {
-        $this->_em->persist($user);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
     }
 
     ##################################################
@@ -98,7 +98,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface, Pa
 
         try {
             return $qb->getQuery()->getOneOrNullResult();
-        } catch (NonUniqueResultException $e) {
+        } catch (NonUniqueResultException) {
             return null;
         }
     }
@@ -126,7 +126,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface, Pa
 
         try {
             $status = $qb->getQuery()->getSingleScalarResult();
-        } catch (NoResultException | NonUniqueResultException $e) {
+        } catch (NoResultException | NonUniqueResultException) {
             return false;
         }
 

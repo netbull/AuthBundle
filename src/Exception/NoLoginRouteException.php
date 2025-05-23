@@ -2,7 +2,9 @@
 
 namespace NetBull\AuthBundle\Exception;
 
-class NoLoginRouteException extends \Exception
+use Exception;
+
+class NoLoginRouteException extends Exception
 {
     public function __construct()
     {

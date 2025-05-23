@@ -18,46 +18,6 @@ use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundE
 class ForcedLogoutListener
 {
     /**
-     * @var TokenStorageInterface
-     */
-    protected TokenStorageInterface $tokenStorage;
-
-    /**
-     * @var AuthorizationCheckerInterface
-     */
-    protected AuthorizationCheckerInterface $authChecker;
-
-    /**
-     * @var RequestStack
-     */
-    protected RequestStack $requestStack;
-
-    /**
-     * @var RouterInterface
-     */
-    protected RouterInterface $router;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    protected EntityManagerInterface $em;
-
-    /**
-     * @var string
-     */
-    protected string $sessionName;
-
-    /**
-     * @var string
-     */
-    protected string $rememberMeSessionName;
-
-    /**
-     * @var string
-     */
-    protected string $loginRoute;
-
-    /**
      * @param TokenStorageInterface $tokenStorage
      * @param AuthorizationCheckerInterface $authChecker
      * @param RequestStack $requestStack
@@ -68,24 +28,16 @@ class ForcedLogoutListener
      * @param string $loginRoute
      */
     public function __construct(
-        TokenStorageInterface $tokenStorage,
-        AuthorizationCheckerInterface $authChecker,
-        RequestStack $requestStack,
-        RouterInterface $router,
-        EntityManagerInterface $em,
-        string $sessionName,
-        string $rememberMeSessionName,
-        string $loginRoute
+        protected TokenStorageInterface $tokenStorage,
+        protected AuthorizationCheckerInterface $authChecker,
+        protected RequestStack $requestStack,
+        protected RouterInterface $router,
+        protected EntityManagerInterface $em,
+        protected string $sessionName,
+        protected string $rememberMeSessionName,
+        protected string $loginRoute
     )
     {
-        $this->tokenStorage = $tokenStorage;
-        $this->authChecker = $authChecker;
-        $this->requestStack = $requestStack;
-        $this->router = $router;
-        $this->em = $em;
-        $this->sessionName = $sessionName;
-        $this->rememberMeSessionName = $rememberMeSessionName;
-        $this->loginRoute = $loginRoute;
     }
 
     /**
@@ -130,7 +82,7 @@ class ForcedLogoutListener
     {
         try {
             return $this->authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED');
-        } catch (AuthenticationCredentialsNotFoundException $exception) {
+        } catch (AuthenticationCredentialsNotFoundException) {
             // Ignoring this exception.
         }
         return false;

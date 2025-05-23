@@ -10,17 +10,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class AccessDeniedActivationStrategy extends ErrorLevelActivationStrategy
 {
     /**
-     * @var RequestStack
-     */
-    private RequestStack $requestStack;
-
-    /**
      * @param RequestStack $requestStack
      */
-    public function __construct(RequestStack $requestStack)
+    public function __construct(private RequestStack $requestStack)
     {
         parent::__construct('critical');
-        $this->requestStack = $requestStack;
     }
 
     /**
