@@ -1,3 +1,20 @@
+# [7.0.0](https://github.com/netbull/AuthBundle/compare/v6.4.2...v7.0.0) (2025-05-22)
+
+
+* Update composer.json ([158b4ef](https://github.com/netbull/AuthBundle/commit/158b4ef0d426bfc30f904984d8e91b813be63fd4))
+
+
+### BREAKING CHANGES
+
+* bump
+
+## [6.4.2](https://github.com/netbull/AuthBundle/compare/v6.4.1...v6.4.2) (2024-10-25)
+
+
+### Bug Fixes
+
+* relationship ([e089298](https://github.com/netbull/AuthBundle/commit/e089298849a95db6029194199f216ee95eeb1106))
+
 ## [6.4.1](https://github.com/netbull/AuthBundle/compare/v6.4.0...v6.4.1) (2024-10-22)
 
 
