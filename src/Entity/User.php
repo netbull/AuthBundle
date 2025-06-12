@@ -23,6 +23,14 @@ use NetBull\AuthBundle\Model\RoleInterface;
 abstract class User implements UserInterface, EquatableInterface, Serializable, PasswordAuthenticatedUserInterface
 {
     /**
+     * @var int|null
+     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    protected ?int $id = null;
+
+    /**
      * @var string|null
      */
     #[ORM\Column(length: 30)]
@@ -102,6 +110,14 @@ abstract class User implements UserInterface, EquatableInterface, Serializable, 
     public function __construct()
     {
         $this->rawRoles = new ArrayCollection();
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     /**

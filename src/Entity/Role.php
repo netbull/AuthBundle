@@ -13,6 +13,14 @@ use NetBull\AuthBundle\Repository\RoleRepository;
 abstract class Role implements RoleInterface
 {
     /**
+     * @var int|null
+     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    protected ?int $id = null;
+
+    /**
      * @var RoleInterface|null
      **/
     #[ORM\ManyToOne(targetEntity: RoleInterface::class)]
@@ -46,6 +54,14 @@ abstract class Role implements RoleInterface
     public function __construct()
     {
         $this->users = new ArrayCollection();
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     /**
