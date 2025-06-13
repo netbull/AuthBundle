@@ -17,8 +17,6 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use NetBull\AuthBundle\Model\RoleInterface;
 
-#[UniqueEntity(fields: 'email', message: 'Sorry, this email address is already in use.', entityClass: UserInterface::class)]
-#[UniqueEntity(fields: 'username', message: 'Sorry, this username is already in use.', entityClass: UserInterface::class)]
 #[ORM\MappedSuperclass(repositoryClass: UserRepository::class)]
 abstract class User implements UserInterface, EquatableInterface, Serializable, PasswordAuthenticatedUserInterface
 {
