@@ -1,3 +1,10 @@
+## [7.0.3](https://github.com/netbull/AuthBundle/compare/v7.0.2...v7.0.3) (2025-06-13)
+
+
+### Bug Fixes
+
+* id columns ([0753bf4](https://github.com/netbull/AuthBundle/commit/0753bf4a5829aaa0364d7b27b2d5e8a30a83a147))
+
 ## [7.0.2](https://github.com/netbull/AuthBundle/compare/v7.0.1...v7.0.2) (2025-06-12)
 
 
