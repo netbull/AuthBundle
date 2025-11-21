@@ -1,3 +1,10 @@
+## [7.0.4](https://github.com/netbull/AuthBundle/compare/v7.0.3...v7.0.4) (2025-11-21)
+
+
+### Bug Fixes
+
+* allow versions ([2fbc935](https://github.com/netbull/AuthBundle/commit/2fbc935aed39e37aa29d79ea1e2b940f61e1602a))
+
 ## [7.0.3](https://github.com/netbull/AuthBundle/compare/v7.0.2...v7.0.3) (2025-06-13)
 
 
