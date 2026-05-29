@@ -404,6 +404,7 @@ abstract class User implements UserInterface, EquatableInterface, Serializable, 
         })->toArray();
     }
 
+    #[\Deprecated]
     public function eraseCredentials(): void
     {
         $this->plainPassword = null;
