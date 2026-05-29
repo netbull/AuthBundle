@@ -1,3 +1,10 @@
+## [7.0.5](https://github.com/netbull/AuthBundle/compare/v7.0.4...v7.0.5) (2026-05-29)
+
+
+### Bug Fixes
+
+* added deprecation ([7c5c7a8](https://github.com/netbull/AuthBundle/commit/7c5c7a8334269b07784ec89c6d01629354ddc786))
+
 ## [7.0.4](https://github.com/netbull/AuthBundle/compare/v7.0.3...v7.0.4) (2025-11-21)
 
 
